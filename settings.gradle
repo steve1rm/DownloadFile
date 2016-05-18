@@ -1,0 +1,3 @@
+include ':DownloadFileChatApp'
+project(':DownloadFileChatApp').projectDir = new File('app')
+
