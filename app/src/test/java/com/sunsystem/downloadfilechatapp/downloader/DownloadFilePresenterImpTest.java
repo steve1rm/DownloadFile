@@ -4,8 +4,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -32,18 +36,22 @@ public class DownloadFilePresenterImpTest {
         mMockDownloadFileView = null;
     }
 
-   /* @Test
+    @Test
     public void testNoUserInteraction() {
-
+        verifyZeroInteractions(mMockDownloadFileView);
     }
-*/
 
     @Test
     public void displaySuccessWithValidUrl() {
         when(mMockDownloadFileView.getUrl()).thenReturn(VALIDURL);
         mDownloadFilePresenterImp.downloadFile();
 
-        verify(mMockDownloadFileView).onDownloadSuccess("Success");
+        /* Verify that onDownloadSuccess() was called only 1 time */
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("Success");
+
+        /* Very view interactions */
+        verify(mMockDownloadFileView, times(1)).getUrl();
+        verify(mMockDownloadFileView, never()).onDownloadFailed(anyString());
     }
 
     @Test
@@ -51,7 +59,13 @@ public class DownloadFilePresenterImpTest {
         when(mMockDownloadFileView.getUrl()).thenReturn(VALIDURLWWW);
         mDownloadFilePresenterImp.downloadFile();
 
-        verify(mMockDownloadFileView).onDownloadSuccess("Success");
+        /* Verify that onDownloadSuccess() was called only 1 time */
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("Success");
+
+        /* Very view interactions */
+        verify(mMockDownloadFileView, times(1)).getUrl();
+        verify(mMockDownloadFileView, never()).onDownloadFailed(anyString());
+
     }
 
     @Test
@@ -59,7 +73,12 @@ public class DownloadFilePresenterImpTest {
         when(mMockDownloadFileView.getUrl()).thenReturn("");
         mDownloadFilePresenterImp.downloadFile();
 
-        verify(mMockDownloadFileView).onDownloadFailed("No url has been entered");
+        /* Verify that onDownloadSuccess() was called only 1 time */
+        verify(mMockDownloadFileView, times(1)).onDownloadFailed("No url has been entered");
+
+        /* Very view interactions */
+        verify(mMockDownloadFileView, times(1)).getUrl();
+        verify(mMockDownloadFileView, never()).onDownloadSuccess(anyString());
     }
 
     @Test
@@ -67,6 +86,11 @@ public class DownloadFilePresenterImpTest {
         when(mMockDownloadFileView.getUrl()).thenReturn(URLNOHTTP);
         mDownloadFilePresenterImp.downloadFile();
 
-        verify(mMockDownloadFileView).onDownloadFailed("Expected scheme name");
+        /* Verify that onDownloadSuccess() was called only 1 time */
+        verify(mMockDownloadFileView, times(1)).onDownloadFailed("Expected scheme name");
+
+        /* Very view interactions */
+        verify(mMockDownloadFileView, times(1)).getUrl();
+        verify(mMockDownloadFileView, never()).onDownloadSuccess(anyString());
     }
 }

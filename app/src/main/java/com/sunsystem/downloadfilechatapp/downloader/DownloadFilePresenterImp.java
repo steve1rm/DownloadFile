@@ -19,13 +19,13 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact.Do
     @Override
     public void downloadFile() {
         String errMessage;
-        boolean isSuccess = true;
 
         /* Get the url */
         String url = mDownloadFileView.getUrl();
         errMessage = isValidUrl(url);
         if(errMessage.isEmpty()) {
             mDownloadFileView.onDownloadSuccess("Success");
+
         }
         else {
             /* continue to process download */

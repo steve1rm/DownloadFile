@@ -17,7 +17,7 @@ public class DownloadFilePresenterContact {
      * Presenter events
      */
 
-    /* Presenter ->> View */
+    /* Model ->> Presenter */
     public interface DownloadFilePresenterEvents {
         void onDownloadFileFailure();
         void onDownloadFileSuccess();
