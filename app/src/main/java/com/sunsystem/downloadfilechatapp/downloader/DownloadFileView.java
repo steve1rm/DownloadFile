@@ -26,6 +26,8 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.pbDownloadFile) ProgressBar mPbDownloadFile;
 
+    private DownloadFilePresenterImp mDownloadFilePresenterImp;
+
     public DownloadFileView() {
         // Required empty public constructor
     }
@@ -37,6 +39,9 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
         ButterKnife.bind(DownloadFileView.this, view);
 
+        /* Initialize presenter */
+        mDownloadFilePresenterImp = new DownloadFilePresenterImp(DownloadFileView.this);
+
         return view;
     }
 
@@ -44,6 +49,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @OnClick(R.id.btnDownloadFile)
     public void startDownload() {
         Log.d(TAG, "startDownload");
+        mDownloadFilePresenterImp.downloadFile();
     }
 
     @Override

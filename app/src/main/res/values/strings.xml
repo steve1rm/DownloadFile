@@ -5,4 +5,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_your_url_here">Enter your url here</string>
     <string name="download_file">Download File</string>
+    <string name="noUrlEntered">Url hasn\'t been entered</string>
 </resources>

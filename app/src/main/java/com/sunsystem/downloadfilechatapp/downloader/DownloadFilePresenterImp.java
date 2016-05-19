@@ -1,17 +1,13 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
-import android.text.TextUtils;
-import android.webkit.URLUtil;
-
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 /**
  * Created by steve on 5/18/16.
  */
 public class DownloadFilePresenterImp implements DownloadFilePresenterContact.DownloadFilePresenterOps, DownloadFilePresenterContact.DownloadFilePresenterEvents {
+    private static final String TAG = DownloadFilePresenterImp.class.getSimpleName();
 
     private DownloadFileView mDownloadFileView;
     public DownloadFilePresenterImp(DownloadFileView downloadFileView) {
@@ -29,11 +25,11 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact.Do
         String url = mDownloadFileView.getUrl();
         errMessage = isValidUrl(url);
         if(errMessage.isEmpty()) {
-            mDownloadFileView.onDownloadFailed(errMessage);
+            mDownloadFileView.onDownloadSuccess("Success");
         }
         else {
             /* continue to process download */
-            mDownloadFileView.onDownloadSuccess("Success");
+            mDownloadFileView.onDownloadFailed(errMessage);
         }
     }
 
@@ -53,15 +49,16 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact.Do
     private String isValidUrl(String url) {
         String message = "";
 
-        if(url.isEmpty()) {
-            return "No url has been entered";
+        if(!url.isEmpty()) {
+            try {
+                new URI(url);
+            }
+            catch(URISyntaxException e) {
+                message = e.getReason();
+            }
         }
-
-        try {
-            new URI(url);
-        }
-        catch(URISyntaxException e) {
-            message = e.getMessage();
+        else {
+            message = "No url has been entered";
         }
 
         return message;
