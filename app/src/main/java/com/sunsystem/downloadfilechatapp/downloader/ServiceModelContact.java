@@ -5,11 +5,6 @@ package com.sunsystem.downloadfilechatapp.downloader;
  */
 public class ServiceModelContact {
     interface ServiceModelOps {
-        void startServiceDownload();
-    }
-
-    interface ServiceModelEvents {
-        void onFileDownloadFailure();
-        void onFileDownloadSuccess();
+        void startServiceDownload(String url);
     }
 }

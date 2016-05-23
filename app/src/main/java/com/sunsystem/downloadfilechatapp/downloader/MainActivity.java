@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.sunsystem.downloadfilechatapp.R;
 
-import utils.RetainedFragmentManager;
+import com.sunsystem.downloadfilechatapp.downloader.utils.RetainedFragmentManager;
 
 public class MainActivity extends AppCompatActivity implements RetainedFragmentManager.handleConfigurationChanges {
     private static final String TAG = MainActivity.class.getSimpleName();

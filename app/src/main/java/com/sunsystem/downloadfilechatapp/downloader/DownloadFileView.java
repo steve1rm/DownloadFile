@@ -1,6 +1,5 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,7 +53,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     @Override
     public String getUrl() {
-        return mEtDownloadFile.getText().toString();
+       return mEtDownloadFile.getText().toString();
     }
 
     @Override

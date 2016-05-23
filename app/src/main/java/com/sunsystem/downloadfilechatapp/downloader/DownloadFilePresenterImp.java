@@ -1,7 +1,6 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
 /**
  * Created by steve on 5/18/16.
@@ -10,8 +9,11 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact.Do
     private static final String TAG = DownloadFilePresenterImp.class.getSimpleName();
 
     private DownloadFileView mDownloadFileView;
+    private ServiceModelImp mServiceModelImp;
+
     public DownloadFilePresenterImp(DownloadFileView downloadFileView) {
         mDownloadFileView = downloadFileView;
+        mServiceModelImp = new ServiceModelImp(DownloadFilePresenterImp.this);
     }
 
     /*
@@ -22,9 +24,9 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact.Do
 
         /* Get the url */
         String url = mDownloadFileView.getUrl();
-        errMessage = isValidUrl(url);
+        errMessage = DownloadUtils.isValidUrl(url);
         if(errMessage.isEmpty()) {
-            mDownloadFileView.onDownloadSuccess("Success");
+            mServiceModelImp.startServiceDownload(url);
 
         }
         else {
@@ -45,22 +47,5 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact.Do
 
     }
 
-    /* Helpers */
-    private String isValidUrl(String url) {
-        String message = "";
 
-        if(!url.isEmpty()) {
-            try {
-                new URI(url);
-            }
-            catch(URISyntaxException e) {
-                message = e.getReason();
-            }
-        }
-        else {
-            message = "No url has been entered";
-        }
-
-        return message;
-    }
 }

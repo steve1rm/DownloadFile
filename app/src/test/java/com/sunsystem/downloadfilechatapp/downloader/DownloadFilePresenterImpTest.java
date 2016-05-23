@@ -51,6 +51,7 @@ public class DownloadFilePresenterImpTest {
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
+        /* This should never be called */
         verify(mMockDownloadFileView, never()).onDownloadFailed(anyString());
     }
 
