@@ -6,6 +6,7 @@ package com.sunsystem.downloadfilechatapp.downloader.dagger;
 public class DaggerInjector {
     private static AppComponent mAppComponent = DaggerAppComponent
             .builder()
+            .appModule(new AppModule())
             .build();
 
     public static AppComponent getAppComponent() {

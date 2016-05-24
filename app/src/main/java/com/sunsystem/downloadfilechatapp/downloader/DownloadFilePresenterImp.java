@@ -11,14 +11,8 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     private DownloadFileContact mDownloadFileContract;
     private ServiceModelContract mServiceModelContract;
 
-/*
-    public DownloadFilePresenterImp(ServiceModelContract serviceModelContract) {
-        mServiceModelContract = serviceModelContract;
-    }
-*/
-
     public DownloadFilePresenterImp() {
-
+        mServiceModelContract = new ServiceModelImp(DownloadFilePresenterImp.this);
     }
 
     /**

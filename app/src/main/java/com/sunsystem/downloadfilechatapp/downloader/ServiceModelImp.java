@@ -14,16 +14,8 @@ public class ServiceModelImp implements ServiceModelContract {
 
     private DownloadFilePresenterContact mDownloadFilePresenterContract;
 
-/*
     public ServiceModelImp(DownloadFilePresenterContact downloadFilePresenterContact) {
         mDownloadFilePresenterContract = downloadFilePresenterContact;
-
-        mDownloadFilePresenterContract.onDownloadFileFailure();
-    }
-*/
-
-    public ServiceModelImp() {
-
     }
 
     /* Model <<- Presenter */
@@ -34,5 +26,7 @@ public class ServiceModelImp implements ServiceModelContract {
         Intent intent = new Intent(ApplicationClass.mContext, IntentServiceDownload.class);
         intent.putExtra("URL_DATA_KEY", url);
         ApplicationClass.mContext.startService(intent);
+
+        mDownloadFilePresenterContract.onDownloadFileSuccess();
     }
 }
