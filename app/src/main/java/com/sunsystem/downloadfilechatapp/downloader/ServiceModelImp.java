@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.sunsystem.downloadfilechatapp.downloader.downloadServices.IntentServiceDownload;
-import com.sunsystem.downloadfilechatapp.downloader.downloadServices.StartedServiceDownload;
 import com.sunsystem.downloadfilechatapp.downloader.utils.ApplicationClass;
 
 /**
  * Created by steve on 5/19/16.
  */
-public class ServiceModelImp implements ServiceModelContact.ServiceModelOps {
+public class ServiceModelImp implements ServiceModelContract {
     private static final String TAG = ServiceModelImp.class.getSimpleName();
 
     private DownloadFilePresenterImp mDownloadFilePresenterImp;

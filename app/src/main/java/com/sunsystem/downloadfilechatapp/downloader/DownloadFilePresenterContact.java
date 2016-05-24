@@ -11,6 +11,7 @@ public class DownloadFilePresenterContact {
     /* Presenter <<- View */
     public interface DownloadFilePresenterOps {
         void downloadFile();
+        void setView(DownloadFileContact view);
     }
 
     /*

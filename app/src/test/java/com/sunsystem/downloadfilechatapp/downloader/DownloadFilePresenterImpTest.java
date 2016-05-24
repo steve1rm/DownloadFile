@@ -23,11 +23,14 @@ public class DownloadFilePresenterImpTest {
 
     private DownloadFileView mMockDownloadFileView;
     private DownloadFilePresenterImp mDownloadFilePresenterImp;
+    private ServiceModelContract mMockServiceModelContract;
 
     @Before
     public void setUp() throws Exception {
         mMockDownloadFileView = mock(DownloadFileView.class);
-        mDownloadFilePresenterImp = new DownloadFilePresenterImp(mMockDownloadFileView);
+        mMockServiceModelContract = mock(ServiceModelContract.class);
+
+        mDownloadFilePresenterImp = new DownloadFilePresenterImp(mMockServiceModelContract);
     }
 
     @After
@@ -47,7 +50,7 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("Success");
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess();
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
@@ -61,7 +64,7 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("Success");
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess();
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
@@ -79,7 +82,7 @@ public class DownloadFilePresenterImpTest {
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess(anyString());
+        verify(mMockDownloadFileView, never()).onDownloadSuccess();
     }
 
     @Test
@@ -92,6 +95,6 @@ public class DownloadFilePresenterImpTest {
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess(anyString());
+        verify(mMockDownloadFileView, never()).onDownloadSuccess();
     }
 }

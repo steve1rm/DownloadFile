@@ -8,30 +8,34 @@ import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 public class DownloadFilePresenterImp implements DownloadFilePresenterContact.DownloadFilePresenterOps, DownloadFilePresenterContact.DownloadFilePresenterEvents {
     private static final String TAG = DownloadFilePresenterImp.class.getSimpleName();
 
-    private DownloadFileView mDownloadFileView;
-    private ServiceModelImp mServiceModelImp;
+    private DownloadFileContact mDownloadFileContract;
+    private ServiceModelContract mServiceModelContract;
 
-    public DownloadFilePresenterImp(DownloadFileView downloadFileView) {
-        mDownloadFileView = downloadFileView;
-        mServiceModelImp = new ServiceModelImp(DownloadFilePresenterImp.this);
+    public DownloadFilePresenterImp(ServiceModelContract serviceModelContract) {
+        mServiceModelContract = serviceModelContract;
     }
 
     /*
      * Presenter <<- view */
     @Override
+    public void setView(DownloadFileContact view) {
+        mDownloadFileContract = view;
+    }
+
+    @Override
     public void downloadFile() {
         String errMessage;
 
         /* Get the url */
-        String url = mDownloadFileView.getUrl();
+        String url = mDownloadFileContract.getUrl();
         errMessage = DownloadUtils.isValidUrl(url);
         if(errMessage.isEmpty()) {
-            mServiceModelImp.startServiceDownload(url);
+            mServiceModelContract.startServiceDownload(url);
 
         }
         else {
             /* continue to process download */
-            mDownloadFileView.onDownloadFailed(errMessage);
+            mDownloadFileContract.onDownloadFailed(errMessage);
         }
     }
 
@@ -39,12 +43,12 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact.Do
      * Presenter ->> View */
     @Override
     public void onDownloadFileFailure() {
-
+        mDownloadFileContract.onDownloadFailed("Failed to download file");
     }
 
     @Override
     public void onDownloadFileSuccess() {
-
+        mDownloadFileContract.onDownloadSuccess();
     }
 
 

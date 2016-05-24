@@ -11,6 +11,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sunsystem.downloadfilechatapp.R;
+import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +28,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.pbDownloadFile) ProgressBar mPbDownloadFile;
 
-    private DownloadFilePresenterImp mDownloadFilePresenterImp;
+    @Inject DownloadFilePresenterImp mDownloadFilePresenterImp;
 
     public DownloadFileView() {
         // Required empty public constructor
@@ -39,7 +42,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         ButterKnife.bind(DownloadFileView.this, view);
 
         /* Initialize presenter */
-        mDownloadFilePresenterImp = new DownloadFilePresenterImp(DownloadFileView.this);
+        DaggerInjector.getAppComponent().inject(DownloadFileView.this);
 
         return view;
     }
@@ -62,7 +65,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     }
 
     @Override
-    public void onDownloadSuccess(String message) {
-        Toast.makeText(getActivity(), "Download Success: " + message, Toast.LENGTH_LONG).show();
+    public void onDownloadSuccess() {
+        Toast.makeText(getActivity(), "Download Success: ", Toast.LENGTH_LONG).show();
     }
 }
