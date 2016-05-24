@@ -44,6 +44,13 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         /* Initialize presenter */
         DaggerInjector.getAppComponent().inject(DownloadFileView.this);
 
+        if(mDownloadFilePresenterImp == null) {
+            Log.e(TAG, "presenter is null - didn't work");
+        }
+        else {
+            Log.d(TAG, "presenter is good - we did it");
+        }
+
         return view;
     }
 

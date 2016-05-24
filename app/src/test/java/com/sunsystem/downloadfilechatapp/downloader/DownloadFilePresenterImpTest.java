@@ -30,7 +30,7 @@ public class DownloadFilePresenterImpTest {
         mMockDownloadFileView = mock(DownloadFileView.class);
         mMockServiceModelContract = mock(ServiceModelContract.class);
 
-        mDownloadFilePresenterImp = new DownloadFilePresenterImp(mMockServiceModelContract);
+        mDownloadFilePresenterImp = new DownloadFilePresenterImp();
     }
 
     @After

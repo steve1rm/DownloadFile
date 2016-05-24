@@ -12,10 +12,18 @@ import com.sunsystem.downloadfilechatapp.downloader.utils.ApplicationClass;
 public class ServiceModelImp implements ServiceModelContract {
     private static final String TAG = ServiceModelImp.class.getSimpleName();
 
-    private DownloadFilePresenterImp mDownloadFilePresenterImp;
+    private DownloadFilePresenterContact mDownloadFilePresenterContract;
 
-    public ServiceModelImp(DownloadFilePresenterImp downloadFilePresenterImp) {
-        mDownloadFilePresenterImp = downloadFilePresenterImp;
+/*
+    public ServiceModelImp(DownloadFilePresenterContact downloadFilePresenterContact) {
+        mDownloadFilePresenterContract = downloadFilePresenterContact;
+
+        mDownloadFilePresenterContract.onDownloadFileFailure();
+    }
+*/
+
+    public ServiceModelImp() {
+
     }
 
     /* Model <<- Presenter */
