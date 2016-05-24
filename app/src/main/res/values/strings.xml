@@ -7,5 +7,5 @@
     <string name="download_file">Download File</string>
     <string name="noUrlEntered">Url has not been entered</string>
     <string name="url">http://pixabay.com/static/uploads/photo/2016/05/01/01/47/turret-arch-1364314_960_720.jpg</string>
-
+    <string name="videoUrl">http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_30mb.mp4</string>
 </resources>
