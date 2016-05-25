@@ -30,10 +30,10 @@ public class IntentServiceDownload extends IntentService {
         final Bitmap mBitmap = DownloadUtils.downloadAndDecodeImage(mUrl);
 
         if(mBitmap != null) {
-            Log.d(TAG, "bitmap not null: ");
+            Log.d(TAG, "Download Completed: " + mBitmap.getByteCount());
         }
         else {
-            Log.w(TAG, "bitmap is null: ");
+            Log.w(TAG, "bitmap is null - failed to download");
         }
     }
 }

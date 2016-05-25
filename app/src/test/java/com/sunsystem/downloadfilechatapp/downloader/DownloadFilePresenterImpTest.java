@@ -27,20 +27,24 @@ public class DownloadFilePresenterImpTest {
 
     @Before
     public void setUp() throws Exception {
+        /* Happens at the start of each test */
         mMockDownloadFileView = mock(DownloadFileView.class);
         mMockServiceModelContract = mock(ServiceModelContract.class);
 
         mDownloadFilePresenterImp = new DownloadFilePresenterImp();
+        mDownloadFilePresenterImp.setView(mMockDownloadFileView);
     }
 
     @After
     public void tearDown() throws Exception {
+        /* Happens at the end of each test */
         mDownloadFilePresenterImp = null;
         mMockDownloadFileView = null;
     }
 
     @Test
     public void testNoUserInteraction() {
+        /* No user interactions haven't happened on the view, i.e. button click, etc */
         verifyZeroInteractions(mMockDownloadFileView);
     }
 
@@ -77,7 +81,7 @@ public class DownloadFilePresenterImpTest {
         when(mMockDownloadFileView.getUrl()).thenReturn("");
         mDownloadFilePresenterImp.downloadFile();
 
-        /* Verify that onDownloadSuccess() was called only 1 time */
+        /* Verify that onDownloadFailed() was called only 1 time */
         verify(mMockDownloadFileView, times(1)).onDownloadFailed("No url has been entered");
 
         /* Very view interactions */
@@ -87,10 +91,12 @@ public class DownloadFilePresenterImpTest {
 
     @Test
     public void displayErrorWhenUrlIsMissingHTTP() {
+        /* Get the url from the mocked view */
         when(mMockDownloadFileView.getUrl()).thenReturn(URLNOHTTP);
+        /* Call the function to start the download */
         mDownloadFilePresenterImp.downloadFile();
 
-        /* Verify that onDownloadSuccess() was called only 1 time */
+        /* Verify that onDownloadFailed() was called only 1 time */
         verify(mMockDownloadFileView, times(1)).onDownloadFailed("Expected scheme name");
 
         /* Very view interactions */
