@@ -13,8 +13,8 @@ import dagger.Provides;
 @Module
 public class AppModule {
     @Provides
-    public DownloadFilePresenterImp provideDownloadfilePresenterImp(DownloadFileView downloadFileView) {
-        return new DownloadFilePresenterImp(downloadFileView);
+    public DownloadFilePresenterImp provideDownloadfilePresenterImp() {
+        return new DownloadFilePresenterImp(new DownloadFileView());
     }
 
 /*

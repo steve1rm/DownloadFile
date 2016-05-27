@@ -29,6 +29,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @BindView(R.id.pbDownloadFile) ProgressBar mPbDownloadFile;
 
     @Inject DownloadFilePresenterImp mDownloadFilePresenterImp;
+   // private DownloadFilePresenterImp mDownloadFilePresenterImp;
 
     public DownloadFileView() {
         // Required empty public constructor
@@ -41,15 +42,21 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
         ButterKnife.bind(DownloadFileView.this, view);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+ //       mDownloadFilePresenterImp = new DownloadFilePresenterImp(DownloadFileView.this);
+
         /* Initialize presenter */
         DaggerInjector.getAppComponent().inject(DownloadFileView.this);
 
         if(mDownloadFilePresenterImp != null) {
-            mDownloadFilePresenterImp.setView(DownloadFileView.this);
             Log.d(TAG, "presenter is good - we did it");
         }
-
-        return view;
     }
 
     @SuppressWarnings("unused")
@@ -61,7 +68,8 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     @Override
     public String getUrl() {
-       return mEtDownloadFile.getText().toString();
+        String url = mEtDownloadFile.getText().toString();
+        return url;
     }
 
     @Override

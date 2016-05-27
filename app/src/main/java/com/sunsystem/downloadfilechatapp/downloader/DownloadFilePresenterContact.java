@@ -9,14 +9,13 @@ public interface DownloadFilePresenterContact {
      */
 
     /* Presenter <<- View */
-        void downloadFile();
-        void setView(DownloadFileContact view);
+    void downloadFile();
 
     /*
      * Presenter events
      */
 
     /* Model ->> Presenter */
-        void onDownloadFileFailure();
-        void onDownloadFileSuccess();
+    void onDownloadFileFailure();
+    void onDownloadFileSuccess();
 }

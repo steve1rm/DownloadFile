@@ -11,13 +11,13 @@ import javax.inject.Inject;
 public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     private static final String TAG = DownloadFilePresenterImp.class.getSimpleName();
 
-    private DownloadFileContact mDownloadFileContract;
+    private DownloadFileView mDownloadFileContract;
     // private ServiceModelContract mServiceModelContract;
 
     @Inject ServiceModelContract mServiceModelContract;
 
     public DownloadFilePresenterImp(DownloadFileView downloadFileView) {
- //       mServiceModelContract = new ServiceModelImp(DownloadFilePresenterImp.this);
+        mServiceModelContract = new ServiceModelImp(DownloadFilePresenterImp.this);
         // DaggerInjector.getAppComponent().inject(DownloadFilePresenterImp.this);
 
         mDownloadFileContract = downloadFileView;
@@ -25,11 +25,6 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
     /**
      * Presenter <<- view */
-    @Override
-    public void setView(DownloadFileContact view) {
-    //    mDownloadFileContract = view;
-    }
-
     @Override
     public void downloadFile() {
         String errMessage;
