@@ -11,7 +11,7 @@ import javax.inject.Inject;
 public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     private static final String TAG = DownloadFilePresenterImp.class.getSimpleName();
 
-    private DownloadFileView mDownloadFileContract;
+    private DownloadFileContact mDownloadFileContract;
     // private ServiceModelContract mServiceModelContract;
 
     @Inject ServiceModelContract mServiceModelContract;

@@ -40,6 +40,8 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.download_file_view, container, false);
 
+        DaggerInjector.getAppComponent().inject(DownloadFileView.this);
+
         ButterKnife.bind(DownloadFileView.this, view);
 
         return view;
