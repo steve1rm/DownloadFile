@@ -10,6 +10,7 @@ public interface DownloadFilePresenterContact {
 
     /* Presenter <<- View */
     void downloadFile();
+    void setView(DownloadFileView view);
 
     /*
      * Presenter events

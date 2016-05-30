@@ -2,7 +2,6 @@ package com.sunsystem.downloadfilechatapp.downloader.downloadServices;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
@@ -24,16 +23,17 @@ public class IntentServiceDownload extends IntentService {
         Log.d(TAG, "onHandleIntent: " + mUrl);
 
         if(mUrl.isEmpty()) {
+            Log.d(TAG, "There is no url");
             return;
         }
 
-        final Bitmap mBitmap = DownloadUtils.downloadAndDecodeImage(mUrl);
+        final String filepath = DownloadUtils.downloadRequestedFile(IntentServiceDownload.this, mUrl);
 
-        if(mBitmap != null) {
-            Log.d(TAG, "Download Completed: " + mBitmap.getByteCount());
+        if(!filepath.isEmpty()) {
+            Log.d(TAG, "Download Completed: " + filepath);
         }
         else {
-            Log.w(TAG, "bitmap is null - failed to download");
+            Log.w(TAG, "filepath is empty - failed to download");
         }
     }
 }

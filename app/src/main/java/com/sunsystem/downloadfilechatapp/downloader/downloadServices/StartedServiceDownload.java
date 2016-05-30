@@ -13,7 +13,7 @@ import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
  */
 public class StartedServiceDownload extends Service {
     private static final String TAG = StartedServiceDownload.class.getSimpleName();
-    private Bitmap mBitmap;
+    private String filepath;
     private String mUrl;
 
     @Override
@@ -41,13 +41,13 @@ public class StartedServiceDownload extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mBitmap = DownloadUtils.downloadAndDecodeImage(mUrl);
+                filepath = DownloadUtils.downloadRequestedFile(StartedServiceDownload.this, mUrl);
 
-                if(mBitmap != null) {
-                    Log.d(TAG, "bitmap not null: " + startId);
+                if(filepath.isEmpty()) {
+                    Log.w(TAG, "file path is empty: " + startId);
                 }
                 else {
-                    Log.w(TAG, "bitmap is null: " + startId);
+                    Log.d(TAG, ": " + startId);
                 }
 
                 stopSelf();

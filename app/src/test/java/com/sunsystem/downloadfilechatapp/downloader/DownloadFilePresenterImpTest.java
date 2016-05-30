@@ -31,7 +31,8 @@ public class DownloadFilePresenterImpTest {
         mMockDownloadFileView = mock(DownloadFileView.class);
         mMockServiceModelContract = mock(ServiceModelContract.class);
 
-        mDownloadFilePresenterImp = new DownloadFilePresenterImp(mMockDownloadFileView);
+        mDownloadFilePresenterImp = new DownloadFilePresenterImp();
+        mDownloadFilePresenterImp.setView(mMockDownloadFileView);
     }
 
     @After
@@ -101,5 +102,12 @@ public class DownloadFilePresenterImpTest {
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
         verify(mMockDownloadFileView, never()).onDownloadSuccess();
+    }
+
+    @Test
+    public void getTheCorrectFileExtensionFromUrl() {
+        /* Get a correct url */
+        when(mMockDownloadFileView.getUrl()).thenReturn(VALIDURL);
+
     }
 }

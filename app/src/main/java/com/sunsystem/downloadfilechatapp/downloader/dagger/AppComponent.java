@@ -9,7 +9,7 @@ import dagger.Component;
  * Created by steve on 5/24/16.
  */
 @Singleton
-@Component(dependencies = AppModule.class, modules=FragmentModule.class)
+@Component(modules = AppModule.class)
 public interface AppComponent {
     void inject(DownloadFileView fragment);
 }

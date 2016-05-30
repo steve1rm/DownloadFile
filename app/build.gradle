@@ -21,6 +21,11 @@ android {
             applicationIdSuffix = '.debug'
         }
     }
+
+    /* Used for return default values for android.util.Log */
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {

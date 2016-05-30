@@ -16,11 +16,9 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
     @Inject ServiceModelContract mServiceModelContract;
 
-    public DownloadFilePresenterImp(DownloadFileView downloadFileView) {
+    public DownloadFilePresenterImp() {
         mServiceModelContract = new ServiceModelImp(DownloadFilePresenterImp.this);
         // DaggerInjector.getAppComponent().inject(DownloadFilePresenterImp.this);
-
-        mDownloadFileContract = downloadFileView;
     }
 
     /**
@@ -33,6 +31,8 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         String url = mDownloadFileContract.getUrl();
         errMessage = DownloadUtils.isValidUrl(url);
         if(errMessage.isEmpty()) {
+            DownloadUtils.getFileExtension(url);
+
             mServiceModelContract.startServiceDownload(url);
         }
         else {
@@ -41,8 +41,13 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         }
     }
 
+    @Override
+    public void setView(DownloadFileView downloadFileView) {
+        mDownloadFileContract = downloadFileView;
+    }
+
     /*
-     * Presenter ->> View */
+         * Presenter ->> View */
     @Override
     public void onDownloadFileFailure() {
         mDownloadFileContract.onDownloadFailed("Failed to download file");
