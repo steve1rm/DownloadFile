@@ -36,11 +36,11 @@ public class IntentServiceDownload extends IntentService {
 
         /* File path that is returned */
         if(!filepath.isEmpty()) {
-            Log.d(TAG, "Download Completed: " + filepath);
+            Log.d(TAG, "Download Completed: " + filepath + " fileName: " + DownloadUtils.getFilename(filepath));
 
             ResultReceiver resultReceiver = intent.getParcelableExtra(DownloadFilePresenterImp.DownloadFileResultReceiver.RESULT_RECEIVER);
             final Bundle bundle = new Bundle();
-            bundle.putString(DownloadFilePresenterImp.DownloadFileResultReceiver.RESULT_DATA, filepath);
+            bundle.putString(DownloadFilePresenterImp.DownloadFileResultReceiver.RESULT_DATA, DownloadUtils.getFilename(filepath));
             resultReceiver.send(DownloadFilePresenterImp.DownloadFileResultReceiver.RESULT_CODE, bundle);
         }
         else {

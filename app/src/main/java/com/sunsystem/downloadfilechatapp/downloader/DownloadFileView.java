@@ -81,8 +81,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     @Override
     public String getUrl() {
-        String url = mEtDownloadFile.getText().toString();
-        return url;
+        return mEtDownloadFile.getText().toString();
     }
 
     @Override
@@ -91,37 +90,20 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     }
 
     @Override
-    public void onDownloadSuccess(String filePath) {
-        Toast.makeText(getActivity(), "Download Success: " + filePath, Toast.LENGTH_LONG).show();
+    public void onDownloadSuccess(String filename) {
+        Toast.makeText(getActivity(), "Download Success: " + filename, Toast.LENGTH_LONG).show();
 
-        // final File file = new File(Environment.getDataDirectory(), "turret-arch-1364314_960_720_1464681539552.jpg");
+        Log.d(TAG, "" + getActivity().getApplication().getPackageName());
+        String packageName = getActivity().getApplication().getPackageName();
+        if(packageName.contains(".debug")) {
+            /* Remove the .debug part */
+            packageName = packageName.replace(".debug", "");
+        }
+      //  filename = "turret-arch-1364314_960_720_1464692822901.jpg";
 
-     //   final File file = new File(Environment.getDataDirectory(), filePath);
-
-        /* Get package to open file */
-/*
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        final Uri uri = Uri.parse("file://" + filePath);
-        intent.setDataAndType(uri, "image*/
-/*");
-        startActivity(intent);
-*/
-        Uri uri = Uri.parse("content://com.sunsystem.downloadfilechatapp/" + "turret-arch-1364314_960_720_1464691474719.jpg");
+        Uri uri = Uri.parse("content://" + packageName + "/" + filename);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "image/*");
         startActivity(intent);
-    }
-
-    private void saveToInternalStorage(String filepath) {
-        final FileOutputStream fileOutputStream;
-
-        try {
-            fileOutputStream = getActivity().openFileOutput(filepath, getActivity().MODE_PRIVATE);
-
-        }
-        catch(FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
     }
 }
