@@ -2,6 +2,8 @@ package com.sunsystem.downloadfilechatapp.downloader.downloadServices;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.ResultReceiver;
 import android.util.Log;
 
 import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
@@ -31,6 +33,10 @@ public class IntentServiceDownload extends IntentService {
 
         if(!filepath.isEmpty()) {
             Log.d(TAG, "Download Completed: " + filepath);
+            ResultReceiver resultReceiver = intent.getParcelableExtra("RESULT_RECEIVER");
+            final Bundle bundle = new Bundle();
+            bundle.putString("FILEPATH", filepath);
+            resultReceiver.send(1, bundle);
         }
         else {
             Log.w(TAG, "filepath is empty - failed to download");

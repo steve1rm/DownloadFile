@@ -13,6 +13,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
     private DownloadFileContact mDownloadFileContract;
     // private ServiceModelContract mServiceModelContract;
+    private DownloadFileView.DownloadFileResultReceiver mDownloadResultReceiver;
 
     @Inject ServiceModelContract mServiceModelContract;
 
@@ -33,7 +34,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         if(errMessage.isEmpty()) {
             DownloadUtils.getFileExtension(url);
 
-            mServiceModelContract.startServiceDownload(url);
+            mServiceModelContract.startServiceDownload(url, mDownloadResultReceiver);
         }
         else {
             /* continue to process download */
@@ -44,6 +45,11 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     @Override
     public void setView(DownloadFileView downloadFileView) {
         mDownloadFileContract = downloadFileView;
+    }
+
+    @Override
+    public void setResultReceiver(DownloadFileView.DownloadFileResultReceiver resultReceiver) {
+        mDownloadResultReceiver = resultReceiver;
     }
 
     /*

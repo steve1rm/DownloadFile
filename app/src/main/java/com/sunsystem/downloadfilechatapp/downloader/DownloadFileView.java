@@ -60,6 +60,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
             Log.d(TAG, "presenter is good - we did it");
             /* Use a setter property to inject the view */
             mDownloadFilePresenterImp.setView(DownloadFileView.this);
+            mDownloadFilePresenterImp.setResultReceiver(new DownloadFileResultReceiver(new Handler()));
         }
     }
 
@@ -87,7 +88,9 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     }
 
     @SuppressLint("ParcelCreator")
-    private static class DownloadFileResultReceiver extends ResultReceiver {
+    public static class DownloadFileResultReceiver extends ResultReceiver {
+
+
         public DownloadFileResultReceiver(Handler handler) {
             super(handler);
         }
@@ -95,6 +98,8 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             super.onReceiveResult(resultCode, resultData);
+
+            Log.d(TAG, "onReceiveResult resultCode: " + resultCode);
         }
     }
 }

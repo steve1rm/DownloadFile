@@ -43,7 +43,7 @@ final public class DownloadUtils {
 //            getFileExtension(url);
 
             /* create the temporary file */
-            final File file = getTemporaryFile(context, url);
+            final File file = getTemporaryFile(context, getFilename(url));
 
             /* Connect to a remote server, download the contents of the image, 
                and provide access to it via an Input Stream */
@@ -132,13 +132,9 @@ final public class DownloadUtils {
      * @return the file extension
      */
     public static FileExtensions getFileExtension(String url) {
-        int index = url.lastIndexOf('/');
-        String filename = url.substring(index + 1);
-        Log.d(TAG, "FileName: " + filename);
-
         /* Get the extension */
-        index = filename.lastIndexOf('.');
-        String extension = filename.substring(index + 1);
+        final int index = url.lastIndexOf('.');
+        final String extension = url.substring(index + 1);
         Log.d(TAG, "extension: " + extension);
 
         if(extension.equalsIgnoreCase("jpg")) {
@@ -162,6 +158,20 @@ final public class DownloadUtils {
     }
 
     /**
+     * Return the complete file name of the download file
+     * @param url the url to get the file name from
+     * @return the file name
+     */
+    public static String getFilename(String url) {
+        final int index = url.lastIndexOf('/');
+        final String filename = url.substring(index + 1);
+
+        Log.d(TAG, "FileName: " + filename);
+
+        return filename;
+    }
+
+    /**
      * Enum of all the current file extension types
      */
     private enum FileExtensions {
@@ -181,12 +191,18 @@ final public class DownloadUtils {
      * @return
      * @throws IOException
      */
-    private static File getTemporaryFile(final Context context,
-                                         final String url) throws IOException {
+    private static File getTemporaryFile(final Context context, final String filename) throws IOException {
         // get a unique temporary file name
-        return context.getFileStreamPath(Base64.encodeToString(url.getBytes(),
-                Base64.NO_WRAP)
-                + System.currentTimeMillis());
+
+        final String timeMS = "_" + String.valueOf(System.currentTimeMillis());
+        final int index = filename.lastIndexOf('.');
+
+        StringBuilder sb = new StringBuilder(filename);
+        sb.insert(index, timeMS);
+
+        Log.d(TAG, "filename: " + sb.toString());
+
+        return context.getFileStreamPath(sb.toString());
     }
 
     /**

@@ -20,10 +20,11 @@ public class ServiceModelImp implements ServiceModelContract {
 
     /* Model <<- Presenter */
     @Override
-    public void startServiceDownload(String url) {
+    public void startServiceDownload(String url, DownloadFileView.DownloadFileResultReceiver resultReceiver) {
         Log.d(TAG, "startServiceDownload: " + url);
 
         Intent intent = new Intent(ApplicationClass.mContext, IntentServiceDownload.class);
+        intent.putExtra("RESULT_RECEIVER", resultReceiver);
         intent.putExtra("URL_DATA_KEY", url);
         ApplicationClass.mContext.startService(intent);
 
