@@ -21,6 +21,11 @@
 
         <service android:name=".downloader.downloadServices.StartedServiceDownload"/>
         <service android:name=".downloader.downloadServices.IntentServiceDownload"/>
+        
+        <provider
+            android:authorities="com.sunsystem.downloadfilechatapp"
+            android:name=".downloader.data.FileProvider"
+            android:exported="true"/>
 
     </application>
 

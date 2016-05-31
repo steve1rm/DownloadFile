@@ -29,7 +29,5 @@ public class ServiceModelImp implements ServiceModelContract {
         intent.putExtra(URL_DATA_KEY, url);
 
         ApplicationClass.mContext.startService(intent);
-
-        mDownloadFilePresenterContract.onDownloadFileSuccess();
     }
 }

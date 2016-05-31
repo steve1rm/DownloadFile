@@ -83,6 +83,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
             if(resultCode == 1) {
                 final String filePath = resultData.getString(RESULT_DATA);
                 if(filePath != null) {
+                    Log.d(TAG, "onReceiveResult: " + filePath);
                     mDownloadFileContract.onDownloadSuccess(filePath);
                 }
                 else {
