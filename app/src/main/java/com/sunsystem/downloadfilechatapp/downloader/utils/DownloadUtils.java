@@ -40,8 +40,6 @@ final public class DownloadUtils {
         OutputStream outputStream = null;
 
         try {
-//            getFileExtension(url);
-
             /* create the temporary file */
             final File file = getTemporaryFile(context, getFilename(url));
 
@@ -60,22 +58,13 @@ final public class DownloadUtils {
             
             /* Return the absolute path */
             return file.getAbsolutePath();
-/*
-            if(getFileExtension(url) == FileExtensions.JPG) {
-                // Decode an InputStream into a Bitmap, checks for null inputstream.
-                Log.d(TAG, "Downloading image");
-                bitmap = BitmapFactory.decodeStream(inputStream);
-            }
-*/
         }
         catch(FileNotFoundException ex) {
             Log.e(TAG, "Error downloading file: " + ex.getMessage() + " " + ex.getCause());
-
             return "";
         }
         catch(IOException ex) {
             Log.e(TAG, "Error downloading file: " + ex.getMessage() + " " + ex.getCause());
-
             return "";
         }
         finally {
@@ -164,11 +153,15 @@ final public class DownloadUtils {
      */
     public static String getFilename(String url) {
         final int index = url.lastIndexOf('/');
-        final String filename = url.substring(index + 1);
-
-        Log.d(TAG, "FileName: " + filename);
-
-        return filename;
+        if(index != -1) {
+            final String filename = url.substring(index + 1);
+            Log.d(TAG, "FileName: " + filename);
+            return filename;
+        }
+        else {
+            /* url doesn't contain any backslashes maybe just a normal file name */
+            return url;
+        }
     }
 
     /**

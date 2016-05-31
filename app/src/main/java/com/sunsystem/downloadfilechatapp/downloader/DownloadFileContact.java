@@ -5,7 +5,7 @@ package com.sunsystem.downloadfilechatapp.downloader;
  */
 public interface DownloadFileContact {
     void onDownloadFailed(String errMessage);
-    void onDownloadSuccess();
+    void onDownloadSuccess(String filePath);
 
     String getUrl();
 }

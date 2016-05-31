@@ -60,7 +60,6 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
             Log.d(TAG, "presenter is good - we did it");
             /* Use a setter property to inject the view */
             mDownloadFilePresenterImp.setView(DownloadFileView.this);
-            mDownloadFilePresenterImp.setResultReceiver(new DownloadFileResultReceiver(new Handler()));
         }
     }
 
@@ -83,23 +82,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     }
 
     @Override
-    public void onDownloadSuccess() {
-        Toast.makeText(getActivity(), "Download Success: ", Toast.LENGTH_LONG).show();
-    }
-
-    @SuppressLint("ParcelCreator")
-    public static class DownloadFileResultReceiver extends ResultReceiver {
-
-
-        public DownloadFileResultReceiver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-            super.onReceiveResult(resultCode, resultData);
-
-            Log.d(TAG, "onReceiveResult resultCode: " + resultCode);
-        }
+    public void onDownloadSuccess(String filePath) {
+        Toast.makeText(getActivity(), "Download Success: " + filePath, Toast.LENGTH_LONG).show();
     }
 }

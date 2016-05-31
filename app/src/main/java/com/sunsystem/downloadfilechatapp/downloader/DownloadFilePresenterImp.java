@@ -1,5 +1,11 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
+import android.util.Log;
+
 import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
 import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
@@ -13,7 +19,6 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
     private DownloadFileContact mDownloadFileContract;
     // private ServiceModelContract mServiceModelContract;
-    private DownloadFileView.DownloadFileResultReceiver mDownloadResultReceiver;
 
     @Inject ServiceModelContract mServiceModelContract;
 
@@ -34,7 +39,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         if(errMessage.isEmpty()) {
             DownloadUtils.getFileExtension(url);
 
-            mServiceModelContract.startServiceDownload(url, mDownloadResultReceiver);
+            mServiceModelContract.startServiceDownload(url, new DownloadFileResultReceiver(new Handler()));
         }
         else {
             /* continue to process download */
@@ -47,11 +52,6 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         mDownloadFileContract = downloadFileView;
     }
 
-    @Override
-    public void setResultReceiver(DownloadFileView.DownloadFileResultReceiver resultReceiver) {
-        mDownloadResultReceiver = resultReceiver;
-    }
-
     /*
          * Presenter ->> View */
     @Override
@@ -61,8 +61,39 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
     @Override
     public void onDownloadFileSuccess() {
-        mDownloadFileContract.onDownloadSuccess();
+        mDownloadFileContract.onDownloadSuccess("");
     }
 
+    @SuppressLint("ParcelCreator")
+    public class DownloadFileResultReceiver extends ResultReceiver {
+        public static final int RESULT_CODE = 1;
+        public static final String RESULT_DATA = "result_data_key";
+        public static final String RESULT_RECEIVER = "result_receiver_key";
+
+        public DownloadFileResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            super.onReceiveResult(resultCode, resultData);
+
+            Log.d(TAG, "onReceiveResult resultCode: " + resultCode);
+
+            if(resultCode == 1) {
+                final String filePath = resultData.getString(RESULT_DATA);
+                if(filePath != null) {
+                    mDownloadFileContract.onDownloadSuccess(filePath);
+                }
+                else {
+                    mDownloadFileContract.onDownloadFailed("bundle contains no data");
+                }
+            }
+            else {
+                mDownloadFileContract.onDownloadFailed("Failed to return correct resultcode");
+            }
+
+        }
+    }
 
 }
