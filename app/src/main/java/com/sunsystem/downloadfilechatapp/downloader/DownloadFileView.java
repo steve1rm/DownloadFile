@@ -4,16 +4,22 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sunsystem.downloadfilechatapp.R;
+import com.sunsystem.downloadfilechatapp.downloader.adapters.DownloadFileAdapter;
 import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,9 +32,10 @@ import butterknife.OnClick;
  */
 public class DownloadFileView extends Fragment implements DownloadFileContact {
     private static final String TAG = DownloadFileView.class.getSimpleName();
+    private List<String> mFileNameList = Collections.emptyList();
 
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
-    @BindView(R.id.pbDownloadFile) ProgressBar mPbDownloadFile;
+    @BindView(R.id.rvDownloadFiles) RecyclerView mRvDownloadFiles;
 
     @Inject DownloadFilePresenterImp mDownloadFilePresenterImp;
 
@@ -49,6 +56,12 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        /* Setup recyclerview */
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mRvDownloadFiles.setLayoutManager(linearLayoutManager);
+        mFileNameList = new ArrayList<>();
+        mRvDownloadFiles.setAdapter(new DownloadFileAdapter(getActivity(), mFileNameList));
 
         /* Initialize presenter */
         DaggerInjector.getAppComponent().inject(DownloadFileView.this);
@@ -80,7 +93,10 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @Override
     public void onDownloadSuccess(String filename) {
         Toast.makeText(getActivity(), "Download Success: " + filename, Toast.LENGTH_LONG).show();
+        openDownloadedFile(filename);
+    }
 
+    private void openDownloadedFile(final String filename) {
         Log.d(TAG, "" + getActivity().getApplication().getPackageName());
         String packageName = getActivity().getApplication().getPackageName();
         if(packageName.contains(".debug")) {
@@ -92,5 +108,6 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "image/*");
         startActivity(intent);
+
     }
 }

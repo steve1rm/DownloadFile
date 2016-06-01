@@ -4,11 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    android:layout_marginStart="40dp"
-    android:layout_marginLeft="40dp"
-    android:layout_marginEnd="40dp"
-    android:layout_marginRight="40dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginRight="4dp"
     tools:context="com.sunsystem.downloadfilechatapp.downloader.DownloadFileView">
 
     <android.support.design.widget.TextInputLayout
@@ -30,12 +29,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/download_file"
-        android:textSize="16sp"
-        android:fontFamily="sans-serif-medium"/>
+        android:drawableStart="@drawable/ic_cloud_download_black_24dp"
+        android:drawableLeft="@drawable/ic_cloud_download_black_24dp"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif-light"
+        android:inputType="text"/>
 
-    <ProgressBar
-        android:id="@+id/pbDownloadFile"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvDownloadFiles"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
