@@ -31,12 +31,12 @@ public class IntentServiceDownload extends IntentService {
 
         /* ResultReciver that will send back message of success of failure */
         final ResultReceiver resultReceiver = intent.getParcelableExtra(RESULT_RECEIVER);
-        final Bundle bundle = new Bundle();
+        final Bundle fileBundle = new Bundle();
 
         if(mUrl.isEmpty()) {
             Log.d(TAG, "There is no url");
-            bundle.putString(RESULT_DATA, "There is no url from intent - cannot start the download");
-            resultReceiver.send(RESULT_CODE_FAIL, bundle);
+            fileBundle.putString(RESULT_DATA, "There is no url from intent - cannot start the download");
+            resultReceiver.send(RESULT_CODE_FAIL, fileBundle);
         }
         else {
             Log.d(TAG, "onHandleIntent: " + mUrl);
@@ -48,12 +48,12 @@ public class IntentServiceDownload extends IntentService {
             if (!filepath.isEmpty()) {
                 Log.d(TAG, "Download Completed: " + filepath + " fileName: " + DownloadUtils.getFilename(filepath));
 
-                bundle.putString(RESULT_DATA, DownloadUtils.getFilename(filepath));
-                resultReceiver.send(RESULT_CODE_OK, bundle);
+                fileBundle.putString(RESULT_DATA, DownloadUtils.getFilename(filepath));
+                resultReceiver.send(RESULT_CODE_OK, fileBundle);
             } else {
                 Log.w(TAG, "filepath is empty - failed to download");
-                bundle.putString(RESULT_DATA, "filepath is empty - failed to download");
-                resultReceiver.send(RESULT_CODE_FAIL, bundle);
+                fileBundle.putString(RESULT_DATA, "filepath is empty - failed to download");
+                resultReceiver.send(RESULT_CODE_FAIL, fileBundle);
             }
         }
     }

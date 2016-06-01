@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sunsystem.downloadfilechatapp.R;
+import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,11 +23,11 @@ import butterknife.ButterKnife;
 public class DownloadFileAdapter extends RecyclerView.Adapter<DownloadFileAdapter.DownloadFileViewHolder> {
 
     private LayoutInflater mLayoutInflater;
-    private List<String> mFileNameList = Collections.emptyList();
+    private List<DownloadFile> mDownloadFileList = Collections.emptyList();
 
-    public DownloadFileAdapter(Context context, List<String> fileNameList) {
+    public DownloadFileAdapter(Context context) {
         mLayoutInflater = LayoutInflater.from(context);
-        mFileNameList = fileNameList;
+        mDownloadFileList = new ArrayList<>();
     }
 
     @Override
@@ -37,21 +39,40 @@ public class DownloadFileAdapter extends RecyclerView.Adapter<DownloadFileAdapte
 
     @Override
     public void onBindViewHolder(DownloadFileViewHolder holder, int position) {
-        holder.mTvFileName.setText(mFileNameList.get(position));
+        final String filename = mDownloadFileList.get(position).getmFilename();
+
+        holder.mTvFileName.setText(mDownloadFileList.get(position).getmFilename());
     }
 
     @Override
     public int getItemCount() {
-        return mFileNameList.size();
+        return mDownloadFileList.size();
+    }
+
+    public int addFileName(final DownloadFile filename) {
+        mDownloadFileList.add(filename);
+        notifyItemInserted(mDownloadFileList.size() - 1);
+
+        return mDownloadFileList.size();
+    }
+
+    public int removeFileName(final DownloadFile filename) {
+        final int index = mDownloadFileList.indexOf(filename);
+        mDownloadFileList.remove(filename);
+        notifyItemRemoved(index);
+
+        return index;
     }
 
     static class DownloadFileViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvFileName) TextView mTvFileName;
+       // @BindView(R.id.tvFileName) TextView mTvFileName;
+        private TextView mTvFileName;
 
         public DownloadFileViewHolder(View itemView) {
             super(itemView);
+            mTvFileName = (TextView)itemView.findViewById(R.id.tvFileName);
 
-            ButterKnife.bind(itemView);
+         //   ButterKnife.bind(itemView);
         }
     }
 }

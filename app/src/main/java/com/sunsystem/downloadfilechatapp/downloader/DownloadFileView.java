@@ -16,10 +16,13 @@ import android.widget.Toast;
 import com.sunsystem.downloadfilechatapp.R;
 import com.sunsystem.downloadfilechatapp.downloader.adapters.DownloadFileAdapter;
 import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
+import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
+import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -32,7 +35,8 @@ import butterknife.OnClick;
  */
 public class DownloadFileView extends Fragment implements DownloadFileContact {
     private static final String TAG = DownloadFileView.class.getSimpleName();
-    private List<String> mFileNameList = Collections.emptyList();
+    private DownloadFileAdapter mDownloadFileAdapter;
+    private DownloadFile mDownloadFile;
 
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.rvDownloadFiles) RecyclerView mRvDownloadFiles;
@@ -60,8 +64,9 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         /* Setup recyclerview */
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRvDownloadFiles.setLayoutManager(linearLayoutManager);
-        mFileNameList = new ArrayList<>();
-        mRvDownloadFiles.setAdapter(new DownloadFileAdapter(getActivity(), mFileNameList));
+
+        mDownloadFileAdapter = new DownloadFileAdapter(getActivity());
+        mRvDownloadFiles.setAdapter(mDownloadFileAdapter);
 
         /* Initialize presenter */
         DaggerInjector.getAppComponent().inject(DownloadFileView.this);
@@ -77,22 +82,36 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @OnClick(R.id.btnDownloadFile)
     public void startDownload() {
         Log.d(TAG, "startDownload");
+
+        /* Create object */
+        mDownloadFile =  new DownloadFile(DownloadUtils.getFilename(
+                mEtDownloadFile.getText().toString()),
+                UUID.randomUUID(),
+                mEtDownloadFile.getText().toString());
+
+        /* Add the filename to the recycler list */
+        mDownloadFileAdapter.addFileName(mDownloadFile);
+
         mDownloadFilePresenterImp.downloadFile();
+
     }
 
     @Override
     public String getUrl() {
-        return mEtDownloadFile.getText().toString();
+        return mDownloadFile.getUrl();
     }
 
     @Override
     public void onDownloadFailed(String errMessage) {
         Toast.makeText(getActivity(), "Download failed: " + errMessage, Toast.LENGTH_LONG).show();
+        /* Remove the file if it doesn't already exist */
+
     }
 
     @Override
     public void onDownloadSuccess(String filename) {
         Toast.makeText(getActivity(), "Download Success: " + filename, Toast.LENGTH_LONG).show();
+
         openDownloadedFile(filename);
     }
 

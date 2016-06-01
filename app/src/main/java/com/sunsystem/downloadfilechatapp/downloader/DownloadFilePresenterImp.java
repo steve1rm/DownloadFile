@@ -82,7 +82,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
             Log.d(TAG, "onReceiveResult resultCode: " + resultCode);
 
-            if(resultCode == 1) {
+            if(resultCode == RESULT_CODE_OK) {
                 final String filePath = resultData.getString(RESULT_DATA);
                 if(filePath != null) {
                     Log.d(TAG, "onReceiveResult: " + filePath);
@@ -92,10 +92,9 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
                     mDownloadFileContract.onDownloadFailed("bundle contains no data");
                 }
             }
-            else {
+            else if(resultCode == RESULT_CODE_FAIL){
                 mDownloadFileContract.onDownloadFailed("Failed to return correct resultcode");
             }
-
         }
     }
 
