@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DownloadFileChatApp.iml" filepath="$PROJECT_DIR$/DownloadFileChatApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/DownloadFileChatApp-DownloadFileChatApp.iml" filepath="$PROJECT_DIR$/app/DownloadFileChatApp-DownloadFileChatApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DownloadFile.iml" filepath="$PROJECT_DIR$/DownloadFile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/DownloadFileChatApp.iml" filepath="$PROJECT_DIR$/app/DownloadFileChatApp.iml" />
     </modules>
   </component>
 </project>

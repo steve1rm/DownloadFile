@@ -66,7 +66,9 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
     @SuppressLint("ParcelCreator")
     public class DownloadFileResultReceiver extends ResultReceiver {
-        public static final int RESULT_CODE = 1;
+        public static final int RESULT_CODE_OK = 0;
+        public static final int RESULT_CODE_FAIL = -1;
+
         public static final String RESULT_DATA = "result_data_key";
         public static final String RESULT_RECEIVER = "result_receiver_key";
 

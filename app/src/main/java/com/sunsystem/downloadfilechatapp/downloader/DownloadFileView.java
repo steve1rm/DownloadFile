@@ -1,16 +1,9 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +14,6 @@ import android.widget.Toast;
 
 import com.sunsystem.downloadfilechatapp.R;
 import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
-import com.sunsystem.downloadfilechatapp.downloader.data.FileProvider;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 import javax.inject.Inject;
 
@@ -99,7 +87,6 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
             /* Remove the .debug part */
             packageName = packageName.replace(".debug", "");
         }
-      //  filename = "turret-arch-1364314_960_720_1464692822901.jpg";
 
         Uri uri = Uri.parse("content://" + packageName + "/" + filename);
         Intent intent = new Intent(Intent.ACTION_VIEW);

@@ -54,7 +54,7 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess();
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("success");
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
@@ -68,7 +68,7 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess();
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("success");
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
@@ -78,6 +78,7 @@ public class DownloadFilePresenterImpTest {
 
     @Test
     public void displayErrorWhenUrlIsEmpty() {
+        /* Return am empty url */
         when(mMockDownloadFileView.getUrl()).thenReturn("");
         mDownloadFilePresenterImp.downloadFile();
 
@@ -86,7 +87,7 @@ public class DownloadFilePresenterImpTest {
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess();
+        verify(mMockDownloadFileView, never()).onDownloadSuccess("success");
     }
 
     @Test
@@ -101,7 +102,7 @@ public class DownloadFilePresenterImpTest {
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess();
+        verify(mMockDownloadFileView, never()).onDownloadSuccess("success");
     }
 
     @Test
