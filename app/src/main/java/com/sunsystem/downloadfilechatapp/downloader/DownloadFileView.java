@@ -19,9 +19,6 @@ import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
 import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -105,19 +102,31 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     public void onDownloadFailed(String errMessage) {
         Toast.makeText(getActivity(), "Download failed: " + errMessage, Toast.LENGTH_LONG).show();
         /* Remove the file if it doesn't already exist */
-
+        mDownloadFileAdapter.removeFileName(null);
     }
 
     @Override
     public void onDownloadSuccess(String filename) {
         Toast.makeText(getActivity(), "Download Success: " + filename, Toast.LENGTH_LONG).show();
 
+        /* Remove the file from the adapter as it has already finished */
+        mDownloadFileAdapter.removeFileName(null);
+
         openDownloadedFile(filename);
     }
 
+    /**
+     * Open the file using the content provider as the files are stored on internal storage.
+     * Only the app may access them. Because we are opening using an external app the content provider
+     * will be able to share this file.
+     * @param filename the filename that you want to open
+     * @return nothing
+     */
     private void openDownloadedFile(final String filename) {
         Log.d(TAG, "" + getActivity().getApplication().getPackageName());
         String packageName = getActivity().getApplication().getPackageName();
+
+        /* Because we specified the .debug postfix in the build.gradle file */
         if(packageName.contains(".debug")) {
             /* Remove the .debug part */
             packageName = packageName.replace(".debug", "");

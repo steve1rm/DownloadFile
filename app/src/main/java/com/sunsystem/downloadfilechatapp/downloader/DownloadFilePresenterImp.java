@@ -36,6 +36,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         /* Get the url */
         String url = mDownloadFileContract.getUrl();
         errMessage = DownloadUtils.isValidUrl(url);
+
         if(errMessage.isEmpty()) {
             DownloadUtils.getFileExtension(url);
 
