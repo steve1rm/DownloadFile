@@ -20,20 +20,33 @@
             android:layout_height="wrap_content"
             android:text="@string/url"
             android:hint="@string/enter_your_url_here"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:fontFamily="sans-serif-condensed"/>
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnDownloadFile"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/download_file"
-        android:drawableStart="@drawable/ic_cloud_download_black_24dp"
-        android:drawableLeft="@drawable/ic_cloud_download_black_24dp"
-        android:textSize="18sp"
-        android:fontFamily="sans-serif-light"
-        android:inputType="text"/>
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnDownloadFile"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/download_file"
+            android:drawableStart="@drawable/ic_cloud_download_black_24dp"
+            android:drawableLeft="@drawable/ic_cloud_download_black_24dp"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
+            android:inputType="text"/>
+
+        <CheckBox
+            android:id="@+id/cbOpenfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open"/>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvDownloadFiles"

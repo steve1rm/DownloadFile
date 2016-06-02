@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.rvDownloadFiles) RecyclerView mRvDownloadFiles;
+    @BindView(R.id.cbOpenfile) CheckBox mCbOpenfile;
 
     @Inject DownloadFilePresenterImp mDownloadFilePresenterImp;
 
@@ -62,7 +64,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRvDownloadFiles.setLayoutManager(linearLayoutManager);
 
-        mDownloadFileAdapter = new DownloadFileAdapter(getActivity());
+        mDownloadFileAdapter = new DownloadFileAdapter();
         mRvDownloadFiles.setAdapter(mDownloadFileAdapter);
 
         /* Initialize presenter */
@@ -111,7 +113,10 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         /* Remove the file from the adapter as it has already finished */
         int index = mDownloadFileAdapter.removeFileName(downloadFile);
         Log.d(TAG, "onDownloadSuccess removed: " + index);
-  //      openDownloadedFile(downloadFile.getmFilepath());
+
+        if(mCbOpenfile.isChecked()) {
+            openDownloadedFile(downloadFile.getmFilepath());
+        }
     }
 
     /**

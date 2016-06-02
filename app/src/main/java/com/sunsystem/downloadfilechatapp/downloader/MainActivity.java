@@ -30,6 +30,12 @@ public class MainActivity extends AppCompatActivity implements RetainedFragmentM
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+    @Override
     public void configurationChanged(Bundle savedInstanceState) {
         if(mRetainedFragmentManager.firstTimeIn()) {
             Log.d(TAG, "mRetainedFragmentManager.firstTimeIn()");
