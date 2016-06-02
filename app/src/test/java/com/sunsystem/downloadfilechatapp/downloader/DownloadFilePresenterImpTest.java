@@ -54,12 +54,12 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("success");
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess(null);
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
         /* This should never be called */
-        verify(mMockDownloadFileView, never()).onDownloadFailed(anyString());
+        verify(mMockDownloadFileView, never()).onDownloadFailed(null, anyString());
     }
 
     @Test
@@ -68,11 +68,11 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess("success");
+        verify(mMockDownloadFileView, times(1)).onDownloadSuccess(null);
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadFailed(anyString());
+        verify(mMockDownloadFileView, never()).onDownloadFailed(null, anyString());
 
     }
 
@@ -83,11 +83,11 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadFailed() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadFailed("No url has been entered");
+        verify(mMockDownloadFileView, times(1)).onDownloadFailed(null, "No url has been entered");
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess("success");
+        verify(mMockDownloadFileView, never()).onDownloadSuccess(null);
     }
 
     @Test
@@ -98,11 +98,11 @@ public class DownloadFilePresenterImpTest {
         mDownloadFilePresenterImp.downloadFile();
 
         /* Verify that onDownloadFailed() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadFailed("Expected scheme name");
+        verify(mMockDownloadFileView, times(1)).onDownloadFailed(null, "Expected scheme name");
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess("success");
+        verify(mMockDownloadFileView, never()).onDownloadSuccess(null);
     }
 
     @Test

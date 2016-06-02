@@ -1,8 +1,10 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 import com.sunsystem.downloadfilechatapp.downloader.downloadServices.IntentServiceDownload;
 import com.sunsystem.downloadfilechatapp.downloader.utils.ApplicationClass;
 
@@ -21,12 +23,16 @@ public class ServiceModelImp implements ServiceModelContract {
 
     /* Model <<- Presenter */
     @Override
-    public void startServiceDownload(String url, DownloadFilePresenterImp.DownloadFileResultReceiver resultReceiver) {
-        Log.d(TAG, "startServiceDownload: " + url);
+    public void startServiceDownload(DownloadFile downloadFile, DownloadFilePresenterImp.DownloadFileResultReceiver resultReceiver) {
+
+        Log.d(TAG, "startServiceDownload: " + downloadFile.getUrl());
 
         Intent intent = new Intent(ApplicationClass.mContext, IntentServiceDownload.class);
         intent.putExtra(DownloadFilePresenterImp.DownloadFileResultReceiver.RESULT_RECEIVER, resultReceiver);
-        intent.putExtra(URL_DATA_KEY, url);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(URL_DATA_KEY, downloadFile);
+        intent.putExtra(URL_DATA_KEY, bundle);
 
         ApplicationClass.mContext.startService(intent);
     }

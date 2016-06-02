@@ -146,7 +146,7 @@ final public class DownloadUtils {
     /**
      * Return the complete file name of the download file
      * @param url the url to get the file name from
-     * @return the file name
+     * @return the file name extracted from the url or just return the url
      */
     public static String getFilename(String url) {
         final int index = url.lastIndexOf('/');
@@ -182,8 +182,8 @@ final public class DownloadUtils {
      * @throws IOException
      */
     private static File getTemporaryFile(final Context context, final String filename) throws IOException {
-        // get a unique temporary file name
-
+        /* get a unique temporary file name appended with current time in MS
+         * so that the same file downloaded more than once will have their own unique names */
         final String timeMS = "_" + String.valueOf(System.currentTimeMillis());
         final int index = filename.lastIndexOf('.');
 

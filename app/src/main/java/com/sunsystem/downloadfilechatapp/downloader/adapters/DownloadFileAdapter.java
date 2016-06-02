@@ -12,6 +12,7 @@ import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,17 +50,37 @@ public class DownloadFileAdapter extends RecyclerView.Adapter<DownloadFileAdapte
         return mDownloadFileList.size();
     }
 
-    public int addFileName(final DownloadFile filename) {
-        mDownloadFileList.add(filename);
+    public int addFileName(final DownloadFile downloadFile) {
+        mDownloadFileList.add(downloadFile);
         notifyItemInserted(mDownloadFileList.size() - 1);
 
         return mDownloadFileList.size();
     }
 
-    public int removeFileName(final DownloadFile filename) {
-        final int index = mDownloadFileList.indexOf(filename);
-        mDownloadFileList.remove(filename);
+    public int removeFileName(final DownloadFile downloadFile) {
+        final int index = mDownloadFileList.indexOf(downloadFile);
+
+        final Iterator<DownloadFile> iterator = mDownloadFileList.iterator();
+        while(iterator.hasNext()) {
+            final DownloadFile file = iterator.next();
+            if(file.getmId().equals(downloadFile.getmId())) {
+                mDownloadFileList.remove(file);
+                notifyDataSetChanged();
+                break;
+            }
+        }
+
+/*
+        for(DownloadFile file : mDownloadFileList) {
+            if(file.getmId().equals(downloadFile.getmId())) {
+                mDownloadFileList.remove(file);
+                notifyDataSetChanged();
+            }
+        }
+
+        mDownloadFileList.remove(downloadFile);
         notifyItemRemoved(index);
+*/
 
         return index;
     }

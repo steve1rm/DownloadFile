@@ -79,40 +79,39 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     @OnClick(R.id.btnDownloadFile)
     public void startDownload() {
         Log.d(TAG, "startDownload");
-
-        /* Create object */
-        mDownloadFile =  new DownloadFile(DownloadUtils.getFilename(
-                mEtDownloadFile.getText().toString()),
-                UUID.randomUUID(),
-                mEtDownloadFile.getText().toString());
-
-        /* Add the filename to the recycler list */
-        mDownloadFileAdapter.addFileName(mDownloadFile);
-
         mDownloadFilePresenterImp.downloadFile();
-
     }
 
     @Override
     public String getUrl() {
-        return mDownloadFile.getUrl();
+        return mEtDownloadFile.getText().toString();
     }
 
     @Override
-    public void onDownloadFailed(String errMessage) {
+    public void onDownloadStarted(DownloadFile downloadFile) {
+        /* Add the filename to the recycler list */
+        int index = mDownloadFileAdapter.addFileName(downloadFile);
+        Log.d(TAG, "onDownloadStarted addded: " + index);
+    }
+
+    @Override
+    public void onDownloadFailed(DownloadFile downloadFile, String errMessage) {
         Toast.makeText(getActivity(), "Download failed: " + errMessage, Toast.LENGTH_LONG).show();
         /* Remove the file if it doesn't already exist */
-        mDownloadFileAdapter.removeFileName(null);
+        if(downloadFile != null) {
+            int index = mDownloadFileAdapter.removeFileName(downloadFile);
+            Log.d(TAG, "onDownloadFailed removed: " + index);
+        }
     }
 
     @Override
-    public void onDownloadSuccess(String filename) {
-        Toast.makeText(getActivity(), "Download Success: " + filename, Toast.LENGTH_LONG).show();
+    public void onDownloadSuccess(DownloadFile downloadFile) {
+        Toast.makeText(getActivity(), "Download Success: " + downloadFile.getmFilepath(), Toast.LENGTH_LONG).show();
 
         /* Remove the file from the adapter as it has already finished */
-        mDownloadFileAdapter.removeFileName(null);
-
-        openDownloadedFile(filename);
+        int index = mDownloadFileAdapter.removeFileName(downloadFile);
+        Log.d(TAG, "onDownloadSuccess removed: " + index);
+  //      openDownloadedFile(downloadFile.getmFilepath());
     }
 
     /**

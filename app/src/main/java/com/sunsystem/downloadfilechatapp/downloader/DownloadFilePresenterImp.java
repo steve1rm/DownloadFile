@@ -7,7 +7,10 @@ import android.os.ResultReceiver;
 import android.util.Log;
 
 import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
+import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
+
+import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -38,13 +41,22 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         errMessage = DownloadUtils.isValidUrl(url);
 
         if(errMessage.isEmpty()) {
-            DownloadUtils.getFileExtension(url);
+                    /* Create object */
+            DownloadFile downloadFile =  new DownloadFile(
+                    DownloadUtils.getFilename(url),
+                    UUID.randomUUID(),
+                    url);
 
-            mServiceModelContract.startServiceDownload(url, new DownloadFileResultReceiver(new Handler()));
+            /* Send back the DownloadFile object so it can be added to the adapter */
+            mDownloadFileContract.onDownloadStarted(downloadFile);
+
+            /* Start the service to begin downloading */
+            DownloadFileResultReceiver downloadFileResultReceiver = new DownloadFileResultReceiver(new Handler(), DownloadFilePresenterImp.this);
+            mServiceModelContract.startServiceDownload(downloadFile, downloadFileResultReceiver);
         }
         else {
             /* continue to process download */
-            mDownloadFileContract.onDownloadFailed(errMessage);
+            mDownloadFileContract.onDownloadFailed(null, errMessage);
         }
     }
 
@@ -54,15 +66,15 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     }
 
     /*
-         * Presenter ->> View */
+     * Presenter ->> View */
     @Override
-    public void onDownloadFileFailure() {
-        mDownloadFileContract.onDownloadFailed("Failed to download file");
+    public void onDownloadFileFailure(DownloadFile downloadFile, String errMessage) {
+        mDownloadFileContract.onDownloadFailed(downloadFile, "Failed to download file");
     }
 
     @Override
-    public void onDownloadFileSuccess() {
-        mDownloadFileContract.onDownloadSuccess("");
+    public void onDownloadFileSuccess(DownloadFile downloadFile) {
+        mDownloadFileContract.onDownloadSuccess(downloadFile);
     }
 
     @SuppressLint("ParcelCreator")
@@ -73,6 +85,12 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         public static final String RESULT_DATA = "result_data_key";
         public static final String RESULT_RECEIVER = "result_receiver_key";
 
+        private DownloadFilePresenterImp mDownloadFilePresenterImp;
+        public DownloadFileResultReceiver(Handler handler, DownloadFilePresenterImp downloadFilePresenterImp) {
+            super(handler);
+            mDownloadFilePresenterImp = downloadFilePresenterImp;
+        }
+
         public DownloadFileResultReceiver(Handler handler) {
             super(handler);
         }
@@ -82,19 +100,22 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
             super.onReceiveResult(resultCode, resultData);
 
             Log.d(TAG, "onReceiveResult resultCode: " + resultCode);
+            final DownloadFile downloadFile = resultData.getParcelable(RESULT_DATA);
 
             if(resultCode == RESULT_CODE_OK) {
-                final String filePath = resultData.getString(RESULT_DATA);
-                if(filePath != null) {
-                    Log.d(TAG, "onReceiveResult: " + filePath);
-                    mDownloadFileContract.onDownloadSuccess(filePath);
+//                if(downloadFile != null) {
+                    Log.d(TAG, "onReceiveResult: " + downloadFile.getmFilepath());
+                    mDownloadFilePresenterImp.onDownloadFileSuccess(downloadFile);
+/*
                 }
                 else {
-                    mDownloadFileContract.onDownloadFailed("bundle contains no data");
+                    mDownloadFilePresenterImp.onDownloadFileFailure(downloadFile, "bundle contains no data");
                 }
+*/
             }
             else if(resultCode == RESULT_CODE_FAIL){
-                mDownloadFileContract.onDownloadFailed("Failed to return correct resultcode");
+                String errMessage = resultData.getString(RESULT_DATA);
+                mDownloadFilePresenterImp.onDownloadFileFailure(downloadFile, errMessage);
             }
         }
     }
