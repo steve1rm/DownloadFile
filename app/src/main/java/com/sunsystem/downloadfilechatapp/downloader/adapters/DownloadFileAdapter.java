@@ -1,5 +1,8 @@
 package com.sunsystem.downloadfilechatapp.downloader.adapters;
 
+import android.annotation.SuppressLint;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +20,10 @@ import java.util.List;
 /**
  * Created by steve on 6/1/16.
  */
-public class DownloadFileAdapter extends RecyclerView.Adapter<DownloadFileAdapter.DownloadFileViewHolder> {
+@SuppressLint("ParcelCreator")
+public class DownloadFileAdapter
+        extends RecyclerView.Adapter<DownloadFileAdapter.DownloadFileViewHolder>
+        implements Parcelable {
     private List<DownloadFile> mDownloadFileList = Collections.emptyList();
 
     public DownloadFileAdapter() {
@@ -28,6 +34,7 @@ public class DownloadFileAdapter extends RecyclerView.Adapter<DownloadFileAdapte
     public DownloadFileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.download_file_row, parent, false);
+
         return new DownloadFileViewHolder(view);
     }
 
@@ -74,6 +81,22 @@ public class DownloadFileAdapter extends RecyclerView.Adapter<DownloadFileAdapte
 */
 
         return index;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if(mDownloadFileList == null) {
+            dest.writeByte((byte) (0x00));
+        }
+        else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(mDownloadFileList);
+        }
     }
 
     static class DownloadFileViewHolder extends RecyclerView.ViewHolder {

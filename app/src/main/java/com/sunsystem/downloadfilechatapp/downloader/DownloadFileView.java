@@ -34,7 +34,6 @@ import butterknife.OnClick;
 public class DownloadFileView extends Fragment implements DownloadFileContact {
     private static final String TAG = DownloadFileView.class.getSimpleName();
     private DownloadFileAdapter mDownloadFileAdapter;
-    private DownloadFile mDownloadFile;
 
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.rvDownloadFiles) RecyclerView mRvDownloadFiles;
@@ -44,6 +43,16 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     public DownloadFileView() {
         // Required empty public constructor
+    }
+
+    public static DownloadFileView getNewInstance(final DownloadFileAdapter downloadFileAdapter) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(MainActivity.FILEUPLOADADAPTER_KEY, downloadFileAdapter);
+
+        DownloadFileView downloadFileView = new DownloadFileView();
+        downloadFileView.setArguments(bundle);
+
+        return downloadFileView;
     }
 
     @Override
@@ -64,7 +73,8 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRvDownloadFiles.setLayoutManager(linearLayoutManager);
 
-        mDownloadFileAdapter = new DownloadFileAdapter();
+        final Bundle bundle = getArguments();
+        mDownloadFileAdapter = bundle.getParcelable(MainActivity.FILEUPLOADADAPTER_KEY);
         mRvDownloadFiles.setAdapter(mDownloadFileAdapter);
 
         /* Initialize presenter */
