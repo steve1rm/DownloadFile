@@ -91,10 +91,6 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
             mDownloadFilePresenterImp = downloadFilePresenterImp;
         }
 
-        public DownloadFileResultReceiver(Handler handler) {
-            super(handler);
-        }
-
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             super.onReceiveResult(resultCode, resultData);

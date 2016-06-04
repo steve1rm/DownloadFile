@@ -81,9 +81,10 @@ public class IntentServiceDownload extends IntentService {
             resultReceiver.send(RESULT_CODE_OK, fileBundle);
         }
         else {
+            Log.w(TAG, "Download Failed: " + downloadErrMessage);
             fileBundle.putParcelable(RESULT_DATA, downloadFile);
             /* Add an extra string for the error message */
-            fileBundle.putString(RESULT_DATA, downloadErrMessage);
+   //         fileBundle.putString(RESULT_DATA, downloadErrMessage);
             resultReceiver.send(RESULT_CODE_FAIL, fileBundle);
         }
     }

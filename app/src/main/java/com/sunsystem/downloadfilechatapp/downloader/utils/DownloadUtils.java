@@ -57,11 +57,11 @@ final public class DownloadUtils {
             return file.getAbsolutePath();
         }
         catch(FileNotFoundException ex) {
-            Log.e(TAG, "Error downloading file: " + ex.getMessage() + " " + ex.getCause());
+            Log.e(TAG, "FileNotFoundException downloading file: " + ex.getMessage() + " " + ex.getCause());
             return "";
         }
         catch(IOException ex) {
-            Log.e(TAG, "Error downloading file: " + ex.getMessage() + " " + ex.getCause());
+            Log.e(TAG, "IOException downloading file: " + ex.getMessage() + " " + ex.getCause());
             return "";
         }
         finally {
