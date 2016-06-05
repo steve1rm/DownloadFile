@@ -10,7 +10,7 @@ import com.sunsystem.downloadfilechatapp.R;
 import com.sunsystem.downloadfilechatapp.downloader.adapters.DownloadFileAdapter;
 import com.sunsystem.downloadfilechatapp.downloader.utils.RetainedFragmentManager;
 
-public class MainActivity extends AppCompatActivity implements RetainedFragmentManager.handleConfigurationChanges {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String TAG_CLASS = TAG;
     private static final String SAVEINSTANCESTATE_KEY = MainActivity.class.getSimpleName() + "_key";
@@ -21,18 +21,18 @@ public class MainActivity extends AppCompatActivity implements RetainedFragmentM
     private RetainedFragmentManager mRetainedFragmentManager =
             RetainedFragmentManager.getNewInstance(getFragmentManager(), TAG_CLASS);
 
-    private DownloadFileAdapter mDownloadFileAdapter;
+   // private DownloadFileAdapter mDownloadFileAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        configurationChanged(savedInstanceState);
+  //      configurationChanged(savedInstanceState);
 
         if(savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.add(R.id.fragment_container, DownloadFileView.getNewInstance(mDownloadFileAdapter), "DownloadFileView")
+            fragmentTransaction.add(R.id.fragment_container, DownloadFileView.getNewInstance(), "DownloadFileView")
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }
@@ -42,40 +42,10 @@ public class MainActivity extends AppCompatActivity implements RetainedFragmentM
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+/*
         if(mDownloadFileAdapter != null) {
             outState.putParcelable(SAVEINSTANCESTATE_KEY, mDownloadFileAdapter);
         }
-    }
-
-    @Override
-    public void configurationChanged(final Bundle savedInstanceState) {
-        if(mRetainedFragmentManager.firstTimeIn()) {
-            Log.d(TAG, "mRetainedFragmentManager.firstTimeIn()");
-
-            mDownloadFileAdapter = new DownloadFileAdapter();
-
-            /* Store the class object */
-            mRetainedFragmentManager.put(FILEUPLOADADAPTER_KEY, mDownloadFileAdapter);
-        }
-        else {
-            Log.d(TAG, "mRetainedFragmentManager subsequent times");
-            mDownloadFileAdapter = mRetainedFragmentManager.get(FILEUPLOADADAPTER_KEY);
-
-            if(mDownloadFileAdapter == null) {
-                mDownloadFileAdapter = savedInstanceState.getParcelable(SAVEINSTANCESTATE_KEY);
-                if(mDownloadFileAdapter == null) {
-                    mDownloadFileAdapter = new DownloadFileAdapter();
-                }
-                else {
-                    Log.d(TAG, "Get item count: " + mDownloadFileAdapter.getItemCount());
-                }
-            }
-            else {
-                mDownloadFileAdapter = new DownloadFileAdapter();
-            }
-
-            /* Store the class object */
-            mRetainedFragmentManager.put(FILEUPLOADADAPTER_KEY, mDownloadFileAdapter);
-        }
+*/
     }
 }

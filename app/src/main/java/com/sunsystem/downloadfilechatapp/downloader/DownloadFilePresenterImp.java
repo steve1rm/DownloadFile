@@ -10,6 +10,7 @@ import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
 import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ import javax.inject.Inject;
 public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     private static final String TAG = DownloadFilePresenterImp.class.getSimpleName();
 
-    private DownloadFileContact mDownloadFileContract;
+    private WeakReference<DownloadFileContact> mDownloadFileContract;
     // private ServiceModelContract mServiceModelContract;
 
     @Inject ServiceModelContract mServiceModelContract;
@@ -37,7 +38,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         String errMessage;
 
         /* Get the url */
-        String url = mDownloadFileContract.getUrl();
+        String url = mDownloadFileContract.get().getUrl();
         errMessage = DownloadUtils.isValidUrl(url);
 
         if(errMessage.isEmpty()) {
@@ -48,7 +49,7 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
                     url);
 
             /* Send back the DownloadFile object so it can be added to the adapter */
-            mDownloadFileContract.onDownloadStarted(downloadFile);
+            mDownloadFileContract.get().onDownloadStarted(downloadFile);
 
             /* Start the service to begin downloading */
             DownloadFileResultReceiver downloadFileResultReceiver = new DownloadFileResultReceiver(new Handler(), DownloadFilePresenterImp.this);
@@ -56,25 +57,30 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         }
         else {
             /* continue to process download */
-            mDownloadFileContract.onDownloadFailed(null, errMessage);
+            mDownloadFileContract.get().onDownloadFailed(null, errMessage);
         }
     }
 
     @Override
-    public void setView(DownloadFileView downloadFileView) {
-        mDownloadFileContract = downloadFileView;
+    public void setView(DownloadFileContact view) {
+        mDownloadFileContract = new WeakReference<>(view);
+    }
+
+    @Override
+    public void onConfigurationChanged(DownloadFileContact view) {
+        mDownloadFileContract = new WeakReference<>(view);
     }
 
     /*
      * Presenter ->> View */
     @Override
     public void onDownloadFileFailure(DownloadFile downloadFile, String errMessage) {
-        mDownloadFileContract.onDownloadFailed(downloadFile, "Failed to download file");
+        mDownloadFileContract.get().onDownloadFailed(downloadFile, "Failed to download file");
     }
 
     @Override
     public void onDownloadFileSuccess(DownloadFile downloadFile) {
-        mDownloadFileContract.onDownloadSuccess(downloadFile);
+        mDownloadFileContract.get().onDownloadSuccess(downloadFile);
     }
 
     @SuppressLint("ParcelCreator")

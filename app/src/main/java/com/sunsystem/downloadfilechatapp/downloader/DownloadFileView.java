@@ -1,5 +1,6 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -20,9 +21,7 @@ import com.sunsystem.downloadfilechatapp.R;
 import com.sunsystem.downloadfilechatapp.downloader.adapters.DownloadFileAdapter;
 import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
 import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
-import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
-
-import java.util.UUID;
+import com.sunsystem.downloadfilechatapp.downloader.utils.RetainedFragmentManager;
 
 import javax.inject.Inject;
 
@@ -37,16 +36,23 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
     private static final String TAG = DownloadFileView.class.getSimpleName();
     private DownloadFileAdapter mDownloadFileAdapter;
 
+    /* Responsible to maintain the object's state during configuration changes */
+    private final RetainedFragmentManager mRetainedFragmentManager =
+            RetainedFragmentManager.getNewInstance(getActivity().getFragmentManager(), DownloadFileView.class.getSimpleName());
+
+    /* Butterknife */
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.rvDownloadFiles) RecyclerView mRvDownloadFiles;
     @BindView(R.id.cbOpenfile) CheckBox mCbOpenfile;
 
+    /* Dagger 2 */
     @Inject DownloadFilePresenterImp mDownloadFilePresenterImp;
 
     public DownloadFileView() {
         // Required empty public constructor
     }
 
+    @SuppressLint("unused")
     public static DownloadFileView getNewInstance(final DownloadFileAdapter downloadFileAdapter) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(MainActivity.FILEUPLOADADAPTER_KEY, downloadFileAdapter);
@@ -55,6 +61,10 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         downloadFileView.setArguments(bundle);
 
         return downloadFileView;
+    }
+
+    public static DownloadFileView getNewInstance() {
+        return new DownloadFileView();
     }
 
     @Override
@@ -77,9 +87,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         /* Setup recyclerview */
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRvDownloadFiles.setLayoutManager(linearLayoutManager);
-
-        final Bundle bundle = getArguments();
-        mDownloadFileAdapter = bundle.getParcelable(MainActivity.FILEUPLOADADAPTER_KEY);
+        mDownloadFileAdapter = new DownloadFileAdapter();
         mRvDownloadFiles.setAdapter(mDownloadFileAdapter);
 
         /* Initialize presenter */
@@ -88,9 +96,56 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         if(mDownloadFilePresenterImp != null) {
             Log.d(TAG, "presenter is good - we did it");
             /* Use a setter property to inject the view */
-            mDownloadFilePresenterImp.setView(DownloadFileView.this);
+            startMVPOps();
         }
     }
+
+    /**
+     * Initialize and restart the presenter
+     * This method should be called after Activity.onCreate(...)
+     */
+    public void startMVPOps() {
+        try {
+            if(mRetainedFragmentManager.firstTimeIn()) {
+                Log.d(TAG, "onCreate called for the first time");
+                initialize(DownloadFileView.this);
+            }
+            else {
+                Log.d(TAG, "onCreate called more than once");
+                reinitialize(DownloadFileView.this);
+            }
+        }
+        catch(InstantiationException | IllegalAccessException ex) {
+            Log.d(TAG, "onCreate: " + ex.getMessage());
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Initialize relevant MVP Objects
+     * Create a presenter instance, saves the presenter
+     */
+    private void initialize(DownloadFileContact view) throws InstantiationException, IllegalAccessException {
+        mDownloadFilePresenterImp.setView(view);
+        mRetainedFragmentManager.put(DownloadFileContact.class.getSimpleName(), mDownloadFilePresenterImp);
+    }
+
+    /**
+     * Recovers presenter and informs presenter that occurred a config change
+     * if Presenter has been lost, recreates a new one
+     */
+    private void reinitialize(DownloadFileContact view) throws InstantiationException, IllegalAccessException {
+        mDownloadFilePresenterImp = mRetainedFragmentManager.get(DownloadFileContact.class.getSimpleName());
+
+        if(mDownloadFilePresenterImp == null) {
+            Log.w(TAG, "Recreating presenter");
+            initialize(view);
+        }
+        else {
+            mDownloadFilePresenterImp.onConfigurationChanged(view);
+        }
+    }
+
 
     @SuppressWarnings("unused")
     @OnClick(R.id.btnDownloadFile)
@@ -113,6 +168,8 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     @Override
     public void onDownloadFailed(DownloadFile downloadFile, String errMessage) {
+
+
         Toast.makeText(getActivity(), "Download failed: " + errMessage, Toast.LENGTH_LONG).show();
         /* Remove the file if it doesn't already exist */
         if(downloadFile != null) {

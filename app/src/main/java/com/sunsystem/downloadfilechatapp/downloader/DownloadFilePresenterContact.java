@@ -12,7 +12,8 @@ public interface DownloadFilePresenterContact {
 
     /* Presenter <<- View */
     void downloadFile();
-    void setView(DownloadFileView view);
+    void setView(DownloadFileContact view);
+    void onConfigurationChanged(DownloadFileContact view);
 
     /*
      * Presenter events
