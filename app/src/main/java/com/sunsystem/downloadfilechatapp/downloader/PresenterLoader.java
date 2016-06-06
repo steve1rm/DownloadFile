@@ -9,10 +9,13 @@ import android.content.Loader;
 public class PresenterLoader<T extends DownloadFilePresenterImp> extends Loader<T> {
     private final PresenterFactory<T> factory;
     private T presenter;
+    private String mTag;
 
-    public PresenterLoader(Context context) {
+    public PresenterLoader(Context context, PresenterFactory<T> presenterFactory, String TAG) {
         super(context);
-        factory = null;
+        mTag = TAG;
+        presenter = null;
+        factory = presenterFactory;
     }
 
     @Override

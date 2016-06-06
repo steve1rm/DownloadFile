@@ -5,14 +5,15 @@ import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 /**
  * Created by steve on 5/18/16.
  */
-public interface DownloadFilePresenterContact {
+public interface DownloadFilePresenterContact<V> {
     /*
      * Presenter operations
      */
 
     /* Presenter <<- View */
     void downloadFile();
-    void attachView(DownloadFileView view);
+    void attachView(V view);
+    void detachView();
     void onDestroyed();
 
     /*

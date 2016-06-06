@@ -66,6 +66,11 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     }
 
     @Override
+    public void detachView() {
+        mDownloadFileContract = null;
+    }
+
+    @Override
     public void onDestroyed() {
 
     }
