@@ -1,11 +1,8 @@
 <resources>
-    <string name="app_name">Download File ChatApp</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Download File Chat App</string>
     <string name="enter_your_url_here">Enter your url here</string>
     <string name="download_file">Start your download</string>
     <string name="noUrlEntered">Url has not been entered</string>
-    <string name="url">http://pixabay.com/static/uploads/photo/2016/05/01/01/47/turret-arch-1364314_960_720.jpg</string>
-
+    <string name="jpbUrl">http://pixabay.com/static/uploads/photo/2016/05/01/01/47/turret-arch-1364314_960_720.jpg</string>
+    <string name="mp3Url">http://download.wavetlan.com/SVV/Media/HTTP/MP3/Helix_Mobile_Producer/HelixMobileProducer_test1_MPEG2_Mono_CBR_40kbps_16000Hz.mp3</string>
 </resources>

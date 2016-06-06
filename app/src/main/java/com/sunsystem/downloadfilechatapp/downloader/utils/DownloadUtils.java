@@ -144,6 +144,40 @@ final public class DownloadUtils {
     }
 
     /**
+     * The correct string that will be used for an app to open the file
+     * @return the string representation of the file extension
+     */
+    public static String buildType(String filename) {
+        String type;
+        switch(getFileExtension(filename)) {
+            case JPG:
+            case GIF:
+            case PNG:
+                type = "image";
+                break;
+
+            case MP3:
+                type = "audio";
+                break;
+
+            case MP4:
+                type = "video";
+                break;
+
+            default:
+                type = "";
+                break;
+        }
+
+        if(!type.isEmpty()) {
+            return type.concat("/*");
+        }
+        else {
+            return type;
+        }
+    }
+
+    /**
      * Return the complete file name of the download file
      * @param url the url to get the file name from
      * @return the file name extracted from the url or just return the url
@@ -166,6 +200,7 @@ final public class DownloadUtils {
      */
     private enum FileExtensions {
         JPG,
+        GIF,
         PNG,
         MP3,
         MP4,

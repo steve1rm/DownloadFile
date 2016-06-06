@@ -34,7 +34,6 @@ import butterknife.OnClick;
 public class DownloadFileView extends Fragment implements DownloadFileContact {
     private static final String TAG = DownloadFileView.class.getSimpleName();
     private DownloadFileAdapter mDownloadFileAdapter;
-    private DownloadFile mDownloadFile;
 
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.rvDownloadFiles) RecyclerView mRvDownloadFiles;
@@ -98,7 +97,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     @Override
     public void onDownloadFailed(DownloadFile downloadFile, String errMessage) {
-        Toast.makeText(getActivity(), "Download failed: " + errMessage, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Download failed: " + errMessage, Toast.LENGTH_SHORT).show();
         /* Remove the file if it doesn't already exist */
         if(downloadFile != null) {
             int index = mDownloadFileAdapter.removeFileName(downloadFile);
@@ -108,7 +107,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
 
     @Override
     public void onDownloadSuccess(DownloadFile downloadFile) {
-        Toast.makeText(getActivity(), "Download Success: " + downloadFile.getmFilepath(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "Download Success: " + downloadFile.getmFilepath(), Toast.LENGTH_SHORT).show();
 
         /* Remove the file from the adapter as it has already finished */
         int index = mDownloadFileAdapter.removeFileName(downloadFile);
@@ -136,10 +135,14 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
             packageName = packageName.replace(".debug", "");
         }
 
+        /* Open the file stored in the app internal structure - uses content provider for sharing */
         Uri uri = Uri.parse("content://" + packageName + "/" + filename);
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(uri, "image/*");
-        startActivity(intent);
 
+        final String type = DownloadUtils.buildType(filename);
+        Log.d(TAG, "openDownloadedFile: " + type);
+        
+        intent.setDataAndType(uri, type);
+        startActivity(intent);
     }
 }
