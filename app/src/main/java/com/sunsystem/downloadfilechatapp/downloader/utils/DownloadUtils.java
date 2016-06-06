@@ -3,6 +3,9 @@ package com.sunsystem.downloadfilechatapp.downloader.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.sunsystem.downloadfilechatapp.downloader.DownloadFilePresenterImp;
+import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,6 +16,8 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import javax.inject.Inject;
 
 /**
  * Created by steve on 5/23/16.
@@ -47,8 +52,10 @@ final public class DownloadUtils {
 
             inputStream = (InputStream)new URL(url).getContent();
 
-        //    final HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(url).openConnection();
-       //     httpURLConnection.getContentLength()
+/*
+            final HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(url).openConnection();
+            Log.d(TAG, "httpURLConnection.getContentLength() " + httpURLConnection.getContentLength());
+*/
 
             /* Create new output stream with the temporary file location to copy the file to */
             outputStream = new FileOutputStream(file);
@@ -240,7 +247,7 @@ final public class DownloadUtils {
      * @throws IOException
      */
     public static int copy(final InputStream in, final OutputStream out) throws IOException {
-        final int BUFFER_LENGTH = 4096;
+        final int BUFFER_LENGTH = 1024;
         final byte[] buffer = new byte[BUFFER_LENGTH];
         int totalRead = 0;
         int read;

@@ -1,6 +1,7 @@
 package com.sunsystem.downloadfilechatapp.downloader.dagger;
 
 import com.sunsystem.downloadfilechatapp.downloader.DownloadFileView;
+import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
 import javax.inject.Singleton;
 import dagger.Component;
@@ -11,5 +12,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {
-    void inject(DownloadFileView fragment);
+    void inject(DownloadFileView target);
 }

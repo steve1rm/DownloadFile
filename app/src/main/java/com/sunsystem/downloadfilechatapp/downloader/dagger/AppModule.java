@@ -2,6 +2,8 @@ package com.sunsystem.downloadfilechatapp.downloader.dagger;
 
 import com.sunsystem.downloadfilechatapp.downloader.DownloadFilePresenterImp;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -10,7 +12,7 @@ import dagger.Provides;
  */
 @Module
 public class AppModule {
-    @Provides
+    @Provides @Singleton
     public DownloadFilePresenterImp provideDownloadfilePresenterImp() {
         return new DownloadFilePresenterImp();
     }

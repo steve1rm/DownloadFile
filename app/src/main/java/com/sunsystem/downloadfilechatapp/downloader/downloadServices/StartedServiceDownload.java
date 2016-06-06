@@ -28,6 +28,8 @@ public class StartedServiceDownload extends Service {
         Log.d(TAG, "onDestroy");
     }
 
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, final int startId) {
 
