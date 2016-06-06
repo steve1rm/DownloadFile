@@ -43,21 +43,20 @@ final public class DownloadUtils {
 
             /* Connect to a remote server, download the contents of the image, 
                and provide access to it via an Input Stream */
+            Log.d(TAG, "Starting the actual downloading");
+
             inputStream = (InputStream)new URL(url).getContent();
 
         //    final HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(url).openConnection();
        //     httpURLConnection.getContentLength()
-
-            Log.d(TAG, "downloadRequestedFile: Download completed");
 
             /* Create new output stream with the temporary file location to copy the file to */
             outputStream = new FileOutputStream(file);
 
             /* Copy the contents of the downloaded image to the temp file */
             copy(inputStream, outputStream);
-            
-            Log.d(TAG, "file AbsolutePath: " + file.getAbsolutePath());
-            
+            Log.d(TAG, "downloadRequestedFile Download completed " + file.getAbsolutePath());
+
             /* Return the absolute path */
             return file.getAbsolutePath();
         }
@@ -190,7 +189,6 @@ final public class DownloadUtils {
         final int index = url.lastIndexOf('/');
         if(index != -1) {
             final String filename = url.substring(index + 1);
-            Log.d(TAG, "FileName: " + filename);
             return filename;
         }
         else {
@@ -235,8 +233,7 @@ final public class DownloadUtils {
     }
 
     /**
-     * Copy the contents of an InputStream into an OutputStream.
-     *
+     * Copy the contents of an InputStream into an OutputStream - downloading the contents.
      * @param in
      * @param out
      * @return

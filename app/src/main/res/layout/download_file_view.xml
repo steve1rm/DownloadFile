@@ -18,7 +18,7 @@
             android:id="@+id/etDownloadFile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mp4Url"
+            android:text="@string/pdfUrl"
             android:hint="@string/enter_your_url_here"
             android:textSize="16sp"
             android:fontFamily="sans-serif-condensed"/>
