@@ -61,12 +61,17 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
     }
 
     @Override
-    public void setView(DownloadFileView downloadFileView) {
+    public void attachView(DownloadFileView downloadFileView) {
         mDownloadFileContract = downloadFileView;
     }
 
+    @Override
+    public void onDestroyed() {
+
+    }
+
     /*
-     * Presenter ->> View */
+         * Presenter ->> View */
     @Override
     public void onDownloadFileFailure(DownloadFile downloadFile, String errMessage) {
         mDownloadFileContract.onDownloadFailed(downloadFile, "Failed to download file");

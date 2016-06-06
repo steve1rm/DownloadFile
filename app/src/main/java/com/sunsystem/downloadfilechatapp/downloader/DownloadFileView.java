@@ -1,7 +1,9 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,9 +33,10 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DownloadFileView extends Fragment implements DownloadFileContact {
+public class DownloadFileView extends Fragment implements DownloadFileContact, LoaderManager.LoaderCallbacks<DownloadFilePresenterImp> {
     private static final String TAG = DownloadFileView.class.getSimpleName();
     private DownloadFileAdapter mDownloadFileAdapter;
+    private static final int LOADER_ID = 101;
 
     @BindView(R.id.etDownloadFile) EditText mEtDownloadFile;
     @BindView(R.id.rvDownloadFiles) RecyclerView mRvDownloadFiles;
@@ -72,7 +75,9 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         if(mDownloadFilePresenterImp != null) {
             Log.d(TAG, "presenter is good - we did it");
             /* Use a setter property to inject the view */
-            mDownloadFilePresenterImp.setView(DownloadFileView.this);
+            mDownloadFilePresenterImp.attachView(DownloadFileView.this);
+
+            getLoaderManager().initLoader(LOADER_ID, null, DownloadFileView.this);
         }
     }
 
@@ -144,5 +149,31 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         
         intent.setDataAndType(uri, type);
         startActivity(intent);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public Loader<DownloadFilePresenterImp> onCreateLoader(int id, Bundle args) {
+        return new PresenterLoader<>(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<DownloadFilePresenterImp> loader, DownloadFilePresenterImp data) {
+        mDownloadFilePresenterImp = data;
+    }
+
+    @Override
+    public void onLoaderReset(Loader<DownloadFilePresenterImp> loader) {
+        mDownloadFilePresenterImp = null;
     }
 }
