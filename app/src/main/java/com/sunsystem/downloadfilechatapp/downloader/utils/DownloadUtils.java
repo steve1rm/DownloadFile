@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -43,7 +44,11 @@ final public class DownloadUtils {
             /* Connect to a remote server, download the contents of the image, 
                and provide access to it via an Input Stream */
             inputStream = (InputStream)new URL(url).getContent();
-            Log.d(TAG, "Download completed");
+
+        //    final HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(url).openConnection();
+       //     httpURLConnection.getContentLength()
+
+            Log.d(TAG, "downloadRequestedFile: Download completed");
 
             /* Create new output stream with the temporary file location to copy the file to */
             outputStream = new FileOutputStream(file);
@@ -153,15 +158,19 @@ final public class DownloadUtils {
             case JPG:
             case GIF:
             case PNG:
-                type = "image";
+                type = "image/*";
                 break;
 
             case MP3:
-                type = "audio";
+                type = "audio/*";
                 break;
 
             case MP4:
-                type = "video";
+                type = "video/*";
+                break;
+
+            case PDF:
+                type = "application/*";
                 break;
 
             default:
@@ -169,12 +178,7 @@ final public class DownloadUtils {
                 break;
         }
 
-        if(!type.isEmpty()) {
-            return type.concat("/*");
-        }
-        else {
-            return type;
-        }
+        return type;
     }
 
     /**
