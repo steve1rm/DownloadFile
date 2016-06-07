@@ -1,6 +1,7 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -51,6 +53,8 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         final View view = inflater.inflate(R.layout.download_file_view, container, false);
 
         ButterKnife.bind(DownloadFileView.this, view);
+
+       // closeSoftwareKeyboard(true);
 
         return view;
     }
@@ -144,5 +148,20 @@ public class DownloadFileView extends Fragment implements DownloadFileContact {
         
         intent.setDataAndType(uri, type);
         startActivity(intent);
+    }
+
+    /**
+     * Close or open the software keyboard
+     */
+    private void closeSoftwareKeyboard(boolean close) {
+        final InputMethodManager inputMethodManager =
+                (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        if(close) {
+            inputMethodManager.hideSoftInputFromWindow(mEtDownloadFile.getWindowToken(), 0);
+        }
+        else {
+            inputMethodManager.showSoftInput(mEtDownloadFile, InputMethodManager.SHOW_IMPLICIT);
+        }
     }
 }
