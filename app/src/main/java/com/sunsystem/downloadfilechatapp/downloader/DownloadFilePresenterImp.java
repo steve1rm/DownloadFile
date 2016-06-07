@@ -17,7 +17,7 @@ import javax.inject.Inject;
 /**
  * Created by steve on 5/18/16.
  */
-public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
+public class DownloadFilePresenterImp implements DownloadFilePresenterContact<DownloadFileView> {
     private static final String TAG = DownloadFilePresenterImp.class.getSimpleName();
 
     private DownloadFileContact mDownloadFileContract;

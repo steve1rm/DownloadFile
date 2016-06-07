@@ -164,7 +164,7 @@ public class DownloadFileView extends Fragment implements DownloadFileContact, L
 
     @Override
     public Loader<DownloadFilePresenterImp> onCreateLoader(int id, Bundle args) {
-        return new PresenterLoader<>(getActivity());
+        return new PresenterLoader<>(getActivity(), null, DownloadFileView.class.getSimpleName());
     }
 
     @Override
