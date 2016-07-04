@@ -7,11 +7,14 @@ import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.UUID;
 
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -70,6 +73,8 @@ public class DownloadFilePresenterImpTest {
         verify(mMockDownloadFileView, times(1)).getUrl();
 
         mDownloadFile = DownloadFile.getNewInstance(DownloadUtils.getFilename(VALIDURL), UUID.randomUUID(), VALIDURL);
+
+      //  when(mMockDownloadFileView.onDownloadStarted(DownloadFile.class)).thenReturn(mDownloadFile);
 
         /* Verify that the onStartDownload was called */
         verify(mMockDownloadFileView, times(1)).onDownloadStarted(mDownloadFile);
