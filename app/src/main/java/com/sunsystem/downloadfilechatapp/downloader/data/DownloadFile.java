@@ -14,10 +14,14 @@ public class DownloadFile implements Parcelable {
     private String url;
     private String mFilepath;
 
-    public DownloadFile(String mFilename, UUID mId, String url) {
+    private DownloadFile(String mFilename, UUID mId, String url) {
         this.mFilename = mFilename;
         this.mId = mId;
         this.url = url;
+    }
+
+    public static DownloadFile getNewInstance(String filename, UUID id, String url) {
+        return new DownloadFile(filename, id, url);
     }
 
     public String getmFilename() {

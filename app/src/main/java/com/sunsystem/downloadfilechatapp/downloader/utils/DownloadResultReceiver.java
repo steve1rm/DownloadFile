@@ -41,10 +41,9 @@ public class DownloadResultReceiver extends ResultReceiver {
             if(downloadFile != null) {
                 Log.d(TAG, "onReceiveResult: " + downloadFile.getmFilepath());
                 mServiceModelContract.onStartServiceDownloadSuccess(downloadFile);
-
             }
             else {
-                mServiceModelContract.onStartServiceDownloadFailed(downloadFile, "bundle contains no data");
+                mServiceModelContract.onStartServiceDownloadFailed(null, "bundle contains no data");
             }
         }
         else if(resultCode == RESULT_CODE_FAIL){

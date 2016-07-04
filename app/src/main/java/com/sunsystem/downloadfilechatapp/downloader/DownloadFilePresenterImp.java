@@ -20,7 +20,12 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
 
     public DownloadFilePresenterImp() {
         mServiceModelContract = new ServiceModelImp(DownloadFilePresenterImp.this);
+
         // DaggerInjector.getAppComponent().inject(DownloadFilePresenterImp.this);
+    }
+
+    public DownloadFilePresenterImp(ServiceModelContract serviceModelImp) {
+        mServiceModelContract = serviceModelImp;
     }
 
     /**
@@ -34,9 +39,9 @@ public class DownloadFilePresenterImp implements DownloadFilePresenterContact {
         errMessage = DownloadUtils.isValidUrl(url);
 
         if(errMessage.isEmpty()) {
-            /* Create object */
-            DownloadFile downloadFile =
-                    new DownloadFile(DownloadUtils.getFilename(url), UUID.randomUUID(), url);
+            /* Create download file object */
+            final DownloadFile downloadFile =
+                    DownloadFile.getNewInstance(DownloadUtils.getFilename(url), UUID.randomUUID(), url);
 
             /* Send back the DownloadFile object so it can be added to the adapter so the user can see the progress */
             mDownloadFileContract.onDownloadStarted(downloadFile);
