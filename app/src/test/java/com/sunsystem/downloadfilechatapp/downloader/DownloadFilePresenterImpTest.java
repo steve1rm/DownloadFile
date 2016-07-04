@@ -1,8 +1,12 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
+import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.UUID;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -24,6 +28,7 @@ public class DownloadFilePresenterImpTest {
     private DownloadFileView mMockDownloadFileView;
     private DownloadFilePresenterImp mDownloadFilePresenterImp;
     private ServiceModelContract mMockServiceModelContract;
+    private DownloadFile mDownloadFile;
 
     @Before
     public void setUp() throws Exception {
@@ -33,6 +38,8 @@ public class DownloadFilePresenterImpTest {
 
         mDownloadFilePresenterImp = new DownloadFilePresenterImp();
         mDownloadFilePresenterImp.setView(mMockDownloadFileView);
+        UUID uuid = UUID.randomUUID();
+        mDownloadFile = new DownloadFile("", uuid, "");
     }
 
     @After
@@ -52,6 +59,9 @@ public class DownloadFilePresenterImpTest {
     public void displaySuccessWithValidUrl() {
         when(mMockDownloadFileView.getUrl()).thenReturn(VALIDURL);
         mDownloadFilePresenterImp.downloadFile();
+
+        /* Verify that the start service was started */
+        verify(mMockServiceModelContract, times(1)).startServiceDownload(mDownloadFile);
 
         /* Verify that onDownloadSuccess() was called only 1 time */
         verify(mMockDownloadFileView, times(1)).onDownloadSuccess(null);

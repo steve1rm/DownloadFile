@@ -22,8 +22,6 @@ import com.sunsystem.downloadfilechatapp.downloader.dagger.DaggerInjector;
 import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
 import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
-import java.util.UUID;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
