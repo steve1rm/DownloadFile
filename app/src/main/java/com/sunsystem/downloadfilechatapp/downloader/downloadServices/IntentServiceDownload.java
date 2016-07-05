@@ -73,7 +73,6 @@ public class IntentServiceDownload extends IntentService {
             downloadErrMessage = "DownloadFile bundle is empty";
         }
 
-
         if(hasDownloadSuccess) {
             Log.d(TAG, "Download Completed: " + filepath + " fileName: " + DownloadUtils.getFilename(filepath));
 

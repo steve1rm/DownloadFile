@@ -1,20 +1,14 @@
 package com.sunsystem.downloadfilechatapp.downloader;
 
 import com.sunsystem.downloadfilechatapp.downloader.data.DownloadFile;
-import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadResultReceiver;
-import com.sunsystem.downloadfilechatapp.downloader.utils.DownloadUtils;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-import java.util.UUID;
-
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,8 +27,6 @@ public class DownloadFilePresenterImpTest {
     private DownloadFileView mMockDownloadFileView;
     private DownloadFilePresenterImp mDownloadFilePresenterImp;
     private ServiceModelContract mMockServiceModelContract;
-    private DownloadFile mDownloadFile;
-    private DownloadResultReceiver mMockDownloadResultReceiver;
 
     @Before
     public void setUp() throws Exception {
@@ -44,9 +36,6 @@ public class DownloadFilePresenterImpTest {
 
         mDownloadFilePresenterImp = new DownloadFilePresenterImp(mMockServiceModelContract);
         mDownloadFilePresenterImp.setView(mMockDownloadFileView);
-
-        mMockDownloadResultReceiver = mock(DownloadResultReceiver.class);
-
     }
 
     @After
@@ -64,43 +53,51 @@ public class DownloadFilePresenterImpTest {
 
     @Test
     public void displaySuccessWithValidUrl() {
+        /* Get the VALIDURL */
         when(mMockDownloadFileView.getUrl()).thenReturn(VALIDURL);
 
-        /* Start the download */
+        /* Start the download - real implementation */
         mDownloadFilePresenterImp.downloadFile();
 
-        /* Verify view interactions */
+     //   mDownloadFile = DownloadFile.getNewInstance(DownloadUtils.getFilename(VALIDURL), UUID.randomUUID(), VALIDURL);
+     //   when(mMockDownloadFileView.onDownloadStarted(anyObject())).thenReturn(mDownloadFile);
+
+        /* Verify the getUrl was called */
         verify(mMockDownloadFileView, times(1)).getUrl();
 
-        mDownloadFile = DownloadFile.getNewInstance(DownloadUtils.getFilename(VALIDURL), UUID.randomUUID(), VALIDURL);
-
-      //  when(mMockDownloadFileView.onDownloadStarted(DownloadFile.class)).thenReturn(mDownloadFile);
+        /* Verify the onDownloadStarted was called */
+        verify(mMockDownloadFileView).onDownloadStarted(any(DownloadFile.class));
 
         /* Verify that the onStartDownload was called */
-        verify(mMockDownloadFileView, times(1)).onDownloadStarted(mDownloadFile);
+        verify(mMockDownloadFileView, times(1)).onDownloadStarted(any(DownloadFile.class));
 
         /* Verify that the start service was started */
-        verify(mMockServiceModelContract, times(1)).startServiceDownload(mDownloadFile);
+        verify(mMockServiceModelContract, times(1)).startServiceDownload(any(DownloadFile.class));
 
         /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess(mDownloadFile);
+        //   verify(mMockDownloadFileView, times(1)).onDownloadSuccess(any(DownloadFile.class));
 
         /* This should never be called */
-        verify(mMockDownloadFileView, never()).onDownloadFailed(null, anyString());
+        verify(mMockDownloadFileView, never()).onDownloadFailed(any(DownloadFile.class), anyString());
     }
 
     @Test
     public void displaySuccessWithValidUrlWithWWW() {
         when(mMockDownloadFileView.getUrl()).thenReturn(VALIDURLWWW);
-        mDownloadFilePresenterImp.downloadFile();
 
-        /* Verify that onDownloadSuccess() was called only 1 time */
-        verify(mMockDownloadFileView, times(1)).onDownloadSuccess(null);
+        mDownloadFilePresenterImp.downloadFile();
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadFailed(null, anyString());
 
+        /* Verify the onDownloadStarted was called */
+        verify(mMockDownloadFileView).onDownloadStarted(any(DownloadFile.class));
+
+        /* Verify that the service was started */
+        verify(mMockServiceModelContract, times(1)).startServiceDownload(any(DownloadFile.class));
+
+        /* Verify that this was never called */
+        verify(mMockDownloadFileView, never()).onDownloadFailed(any(DownloadFile.class), anyString());
     }
 
     @Test
@@ -114,7 +111,7 @@ public class DownloadFilePresenterImpTest {
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess(null);
+        verify(mMockDownloadFileView, never()).onDownloadSuccess(any(DownloadFile.class));
     }
 
     @Test
@@ -129,7 +126,7 @@ public class DownloadFilePresenterImpTest {
 
         /* Very view interactions */
         verify(mMockDownloadFileView, times(1)).getUrl();
-        verify(mMockDownloadFileView, never()).onDownloadSuccess(null);
+        verify(mMockDownloadFileView, never()).onDownloadSuccess(any(DownloadFile.class));
     }
 
     @Test
